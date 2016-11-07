@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.recette.MainListActivity">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/search"
+        app:showAsAction="always"
+        android:titleCondensed="@string/search"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+</menu>

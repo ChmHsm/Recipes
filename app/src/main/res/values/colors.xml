@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="primary_color" type="color">#FF2ecc71</item>
+    <item name="colorPrimaryDark" type="color">#FF27ae60</item>
+    <item name="colorAccent" type="color">#FFFFFF</item>
+    <item name="black" type="color">#FF000000</item>
+    <item name="white" type="color">#FFFFFFFF</item>
+    <item name="light_black" type="color">#55EEEEEE</item>
+    <item name="blue" type="color">#FF3498db</item>
+
+</resources> 
