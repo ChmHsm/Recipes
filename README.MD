@@ -21,3 +21,5 @@ What needs to be done in the app is simple (by order of priority):
 The like button's twitter like animation is based on forgermcs's here: http://frogermcs.github.io/twitters-like-animation-in-android-alternative/, only very minor changes were made to it.
 
 Please crticise everything you can about this app, I'll apreciate it very much.
+
+P.S: I'll be updating the app_debug.apk in app/ for apk download.
