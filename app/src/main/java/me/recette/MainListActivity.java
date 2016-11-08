@@ -236,16 +236,6 @@ public class MainListActivity extends ActionBarActivity {
 }
 
 
-/*class Recipe{
-    int imageRecipe;
-    String nameRecipe;
-
-    public Recipe(int imageRecipe, String nameRecipe){
-        this.imageRecipe = imageRecipe;
-        this.nameRecipe = nameRecipe;
-    }
-}*/
-
 class RecepiesAdapter extends BaseAdapter implements Filterable
 {
     ArrayList<FullRecipe> recipes;
