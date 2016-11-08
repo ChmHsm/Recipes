@@ -1,20 +1,17 @@
 package me.recette;
 
-import android.animation.LayoutTransition;
+
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
-import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -23,21 +20,17 @@ import android.os.Bundle;
 
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
 
@@ -49,13 +42,10 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.io.IOException;
 
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static me.recette.R.color.white;
-
-
+// TODO ActionBarActivity is deprecated, to be fixed
 public class MainListActivity extends ActionBarActivity {
 
     private GridView gridView;
@@ -70,6 +60,8 @@ public class MainListActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         setTitle(R.string.main_list_activity_title);
+        //No need for a back arrow in first activity, but keeping it commented
+        // for future eventual use
         /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
         gridView = (GridView) findViewById(R.id.gridView);
@@ -82,6 +74,8 @@ public class MainListActivity extends ActionBarActivity {
         recipesAdapter = new RecepiesAdapter(this, recipes, this);
         gridView.setAdapter(recipesAdapter);
 
+
+        //Used for testing DBHelper methods (Database requests)
         /*FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById("1");
         tmpRecipe.setName("New Recipe 4");
         retrieveDBInstance().insertRecipe(tmpRecipe);
@@ -102,11 +96,12 @@ public class MainListActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.menu_main_list, menu);
-        // Retrieve the SearchView and plug it into SearchManager
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+
+        // TODO Animate the SearchView to make it like the Play Music's search bar
+        //Tried to animate the SearchView to make it like the Play Music's search bar, but the search plate was always null
         /*int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_bar", null, null);
         View searchPlate = findViewById(searchPlateId);
         Log.d("Search plate id", String.valueOf(searchPlateId));
@@ -162,12 +157,10 @@ public class MainListActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //Menu still empty
+        //int id = item.getItemId();
+
         /*if (id == R.id.action_search) {
             return true;
         }*/
@@ -185,11 +178,14 @@ public class MainListActivity extends ActionBarActivity {
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                //So far, there's always an OK Result from Activity
             }
         }
     }
 
+
+    //Made for notification handling, should probably be a separate class for calls outside this Activity
+    // TODO Make class for Notifications management instead of this method
     public void triggerNotification(PendingIntent pendingIntent, String title, String textContent){
 
         NotificationCompat.Builder mBuilder =
@@ -204,6 +200,7 @@ public class MainListActivity extends ActionBarActivity {
         notificationManager.notify(0, mBuilder.build());//Required on Gingerbread and below
     }
 
+    // Retrieves a new DB instance and updates the recipes object containing ALL the recipes and updates the Views
     public void updateList(){
         recipes = retrieveDBInstance().getAllRecipes();
         recipesAdapter = new RecepiesAdapter(this, recipes, this);
@@ -211,6 +208,7 @@ public class MainListActivity extends ActionBarActivity {
         recipesAdapter.notifyDataSetChanged();
     }
 
+    //Retrieves DB instance
     public DataBaseHelper retrieveDBInstance(){
 
         DataBaseHelper myDbHelper = new DataBaseHelper(this);
@@ -235,7 +233,9 @@ public class MainListActivity extends ActionBarActivity {
 
 }
 
-
+//Adapter for the GridView.
+// For images caching and management, Universal Image Loader API was used.
+//TODO fix class name typo
 class RecepiesAdapter extends BaseAdapter implements Filterable
 {
     ArrayList<FullRecipe> recipes;
@@ -252,14 +252,7 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
         this.recipes = recipes;
         this.mStringFilterList = recipes;
         this.activity = activity;
-        /*String[] recipesNames = context.getResources().getStringArray(R.array.recipes_names);
-        String[] recipesImagesNames = context.getResources().getStringArray(R.array.recipes_images_names);
-        recipes = new ArrayList<Recipe>();
-        for (int i =0 ; i < recipesNames.length ; i++){
-            Recipe recipe = new Recipe(context.getResources().getIdentifier(recipesImagesNames[i], "drawable", context.getPackageName()), recipesNames[i]);
-            recipes.add(recipe);
-            Log.i("Recipe name: ", recipesImagesNames[i]);
-        }*/
+
 
         ImageLoaderConfiguration imageLoaderConfiguration
                 = new ImageLoaderConfiguration.Builder(context)
@@ -309,6 +302,7 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
         return valueFilter;
     }
 
+    //Adapter Filtering by recipe's name
     private class ValueFilter extends Filter {
 
         //Invoked in a worker thread to filter the data according to the constraint.
@@ -348,7 +342,7 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
     }
 
 
-
+    //One item view holder
     class ViewHolder{
 
         ImageView recipeImageView;
@@ -382,13 +376,6 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
         else{
             holder = (ViewHolder) convertView.getTag();
         }
-        /*
-        Drawable tmpImage = context.getResources().getDrawable(recipes.get(position).imageRecipe);
-        holder.recipeImageView.setImageDrawable(resize(tmpImage));
-        //Log.i("Holder position: ", String.valueOf(recipes.get(position).imageRecipe));
-        holder.recipeTextView.setText(recipes.get(position).nameRecipe);
-        context.getResources().getIdentifier(recipes.get(position).getName())
-        */
         imageLoader.displayImage("drawable://" + context.getResources().getIdentifier(recipes.get(position).getImage(), "drawable", context.getPackageName()), holder.recipeImageView, displayImageOptions);
         holder.recipeTextView.setText(recipes.get(position).getName()/* + " id: " + String.valueOf(recipes.get(position).getId()) + " "+recipes.get(position).getAimer()*/);
         //Log.d("Crash value", String.valueOf(recipes.get(position).getDifficulty()));
@@ -396,7 +383,8 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
         if(recipes.get(position).getCost()!=0) holder.recipeCostTextView.setText(String.valueOf(recipes.get(position).getCost())+" Dh");
         if(recipes.get(position).getTime()!=0) holder.recipeTimeTextView.setText(String.valueOf(recipes.get(position).getTime())+" min.");
 
-
+        //The data is passed to the next Activity through extras, thought it was better than passing the id
+        //alone then retrieving the recipe from DB since we already have all the data in this activity.
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -412,18 +400,13 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
                 intent.putExtra("recipeCost", recipes.get(position).getCost());
                 intent.putExtra("recipeImage", recipes.get(position).getImage());
                 activity.startActivityForResult(intent, 1);
+                //Slide animation
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
             }
         });
 
 
         return convertView;
-    }
-
-    private Drawable resize(Drawable image) {
-        Bitmap b = ((BitmapDrawable)image).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 200, 180, false);
-        return new BitmapDrawable(context.getResources(), bitmapResized);
     }
 }
 
