@@ -15,7 +15,7 @@ The targeted versions are 16 (JellyBean) to 22 (Kitkat).
 What needs to be done in the app is simple (by order of priority):
 - A filtering functionality for the list activity, not by recipe name, rather by "liked", difficulty level (difficulty is on a 1 to 5 scale), time (to cook) and cost.
 - An add Recipe functionality (to the local DB of course), a good way to do that is with a FloatingActionButton in the list activity.
-- Strings-fr and strings-en, string-ar.
+- Strings-fr, strings-en and string-ar.
 - Maybe UI enhancement.
 
 The like button's twitter like animation is based on forgermcs's here: http://frogermcs.github.io/twitters-like-animation-in-android-alternative/, only very minor changes were made to it.
