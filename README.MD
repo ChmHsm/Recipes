@@ -6,7 +6,7 @@ Typical Android app about recipes (Content is in French for the moment) containi
 - A GridView Activity showing all the items (recipes) available.
 - A per recipe Activity showing details for every recipe.
 
-Data is stored locally in an SQLite database which you can download from app/assets (db is called "test"). The db is stored there because I needed initial data to be shipped with the App (this is very arguable because then the app would have redundant data).
+Data is stored locally in an SQLite database which you can download from app/src/main/assets/ (db is called "test"). The db is stored there because I needed initial data to be shipped with the App (this is very arguable because then the app would have redundant data).
 The database contains one table called "recipes", composed of 10 attributes:
 name, ingredients, preparation, time, cost, difficulty, image, author, aimer and _id. (aimer is french for like)
 
