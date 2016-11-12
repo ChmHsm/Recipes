@@ -1,9 +1,10 @@
 ![alt tag](https://cloud.githubusercontent.com/assets/12183061/20238519/67b3116c-a8e5-11e6-84b2-95b69f572dbe.png)
 ![alt tag](https://cloud.githubusercontent.com/assets/12183061/20238518/64e9075c-a8e5-11e6-94c1-b42bbe86ce02.jpg)
 
-Typical Android app about recipes (Content is in French for the moment) containing two main activities:
-- A GridView Activity showing all the items (recipes) available.
-- A per recipe Activity showing details for every recipe.
+Typical Android app about recipes (Content is in French for the moment) containing 3 activities:
+- MainListActivity: A GridView Activity showing all the items (recipes) available.
+- MainActivity: A per recipe Activity showing details for every recipe.
+- NewRecipeActivity: Activity for adding a new recipe.
 
 Data is stored locally in an SQLite database which you can download from app/src/main/assets/ (db is called "test"). The db is stored there because I needed initial data to be shipped with the App (this is very arguable because then the app would have redundant data).
 The database contains one table called "recipes", composed of 10 attributes:
