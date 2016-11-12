@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    //The Android's default system path of your application test.
+    //The Android's default system path the App.
     private static String DB_PATH = "/data/data/me.recette/databases/";
 
     private static String DB_NAME = "test";
@@ -47,7 +47,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         boolean dbExist = checkDataBase();
 
         if(dbExist){
-            //do nothing - test already exist
+            //do nothing - Database already exists could be needed in future
 
         }else{
 
@@ -93,7 +93,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         }
 
-        return checkDB != null ? true : false;
+        return checkDB != null;
     }
 
     /**
@@ -137,7 +137,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<FullRecipe> getAllRecipes(){
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = "select _id, name, ingredients, preparation, time, cost, difficulty, image, author, aimer from recipes";
-        ArrayList<FullRecipe> recipes = new ArrayList();
+        ArrayList recipes = new ArrayList();
         final Cursor cursor;
         try{
             cursor = db.rawQuery(selectQuery, null);
@@ -165,11 +165,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public boolean updateRecipe(FullRecipe fullRecipe){
         SQLiteDatabase db = this.getWritableDatabase();
-        /*String query = "INSERT INTO recipes (name, ingredients, preparation, time, cost, difficulty, image, author)" +
-                " VALUES ("+fullRecipe.getName()+","+fullRecipe.getIngredients()+","+fullRecipe.getPreparation()+","
-                +fullRecipe.getTime()+","+fullRecipe.getCost()+","+fullRecipe.getDifficulty()+","
-                +fullRecipe.getImage()+","+fullRecipe.getAuthor()+","+") where _id = '"+fullRecipe.getId()+"'";
-        db.execSQL(query);*/
 
         SQLiteStatement stmt = db.compileStatement("UPDATE recipes set name = ?, ingredients = ?, preparation = ?, time = ?, cost = ?, difficulty = ?," +
                 " image = ?, author = ?, AIMER = ? where _id = ?");
@@ -189,13 +184,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //Insert new recipe in DB
     public boolean insertRecipe(FullRecipe fullRecipe){
         SQLiteDatabase db = this.getWritableDatabase();
-        /*String query = "INSERT INTO recipes (name, ingredients, preparation, time, cost, difficulty, image, author)" +
-                " VALUES ("+fullRecipe.getName()+","+fullRecipe.getIngredients()+","+fullRecipe.getPreparation()+","
-                +fullRecipe.getTime()+","+fullRecipe.getCost()+","+fullRecipe.getDifficulty()+","
-                +fullRecipe.getImage()+","+fullRecipe.getAuthor()+","+") where _id = '"+fullRecipe.getId()+"'";
-        db.execSQL(query);*/
+
 
         SQLiteStatement stmt = db.compileStatement("INSERT INTO recipes (name, ingredients, preparation, time, cost, difficulty, image, author) VALUES " +
                 "(?, ?, ?, ?, ?, ?, ?, ?)");
@@ -215,6 +207,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //Delete recipe from DB by ID
     public boolean deleteRecipe(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         /*String query = "INSERT INTO recipes (name, ingredients, preparation, time, cost, difficulty, image, author)" +
@@ -233,6 +226,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //Retrieve recipe by ID
     public FullRecipe getRecipeById(String id){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -273,9 +267,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-
-    // Add your public helper methods to access and get content from the test.
-    // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
-    // to you to create adapters for your views.
 
 }
