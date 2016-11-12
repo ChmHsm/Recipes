@@ -45,6 +45,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+//This is the first Activity containing the GridView
 // TODO ActionBarActivity is deprecated, to be fixed
 public class MainListActivity extends ActionBarActivity {
 
@@ -234,7 +236,7 @@ public class MainListActivity extends ActionBarActivity {
 }
 
 //Adapter for the GridView.
-// For images caching and management, Universal Image Loader API was used.
+//For images caching and management, Universal Image Loader API was used.
 //TODO fix class name typo
 class RecepiesAdapter extends BaseAdapter implements Filterable
 {
