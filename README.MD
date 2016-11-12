@@ -1,3 +1,6 @@
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20238519/67b3116c-a8e5-11e6-84b2-95b69f572dbe.png)
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20238518/64e9075c-a8e5-11e6-94c1-b42bbe86ce02.jpg)
+
 Typical Android app about recipes (Content is in French for the moment) containing two main activities:
 - A GridView Activity showing all the items (recipes) available.
 - A per recipe Activity showing details for every recipe.
