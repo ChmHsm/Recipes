@@ -7,18 +7,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
+import me.recette.LikeAnimation.LikeButtonView;
 
+//Activity for recipe's details
+//TODO ActionBarActivity is deprecated, should be fixed.
 public class MainActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
@@ -30,8 +30,8 @@ public class MainActivity extends ActionBarActivity {
     private TextView recipePreparationTextView;
     private LinearLayout recipeImageView;
     private LikeButtonView recipeLikeButtonView;
-    public static boolean likeValue;
-    private boolean originalLikeValue;
+    private boolean originalLikeValue; // Stores the original "like" value or the recipe
+    public static boolean likeValue; // Stores the final like value chosen by the user. That way, the db is only accessed in onBackPressed if the likeValue != originalValue
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,10 @@ public class MainActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         if(getIntent().getStringExtra("recipeName")!=null) setTitle(getIntent().getStringExtra("recipeName"));
         else {setTitle(R.string.main_activity_title);}
+        if(getSupportActionBar() != null){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         likeValue = getIntent().getBooleanExtra("recipeAimer", false);
         originalLikeValue = getIntent().getBooleanExtra("recipeAimer", false);
@@ -62,10 +64,11 @@ public class MainActivity extends ActionBarActivity {
         if(getIntent().getIntExtra("recipeCost", 0) != 0) recipeCostTextView.setText(String.valueOf(getIntent().getIntExtra("recipeCost", 0))+" Dh");
         if(getIntent().getIntExtra("recipeTime", 0) != 0) recipeTimeTextView.setText(String.valueOf(getIntent().getIntExtra("recipeTime", 0))+" min.");
         if(getIntent().getIntExtra("recipeDifficulty", 0) != 0) recipeDifficultyTextView.setText(String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+"/5");
+        //TODO getResources().getDrawable() is deprecated, needs to be fixed
         if(getIntent().getStringExtra("recipeImage") != null) recipeImageView.setBackground(getResources().getDrawable(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
         //Log.d("Resource name", String.valueOf(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
         if(getIntent().getBooleanExtra("recipeAimer", false)) recipeLikeButtonView.setClicked(true);
-        Log.d("Liked boolean",String.valueOf(getIntent().getBooleanExtra("recipeAimer", false)));
+        //Log.d("Liked boolean",String.valueOf(getIntent().getBooleanExtra("recipeAimer", false)));
 
     }
 
@@ -82,8 +85,8 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case android.R.id.home:
-                //finish();
-                Log.d("Back pressed", "from menu");
+
+                //Log.d("Back pressed", "from menu");
                 onBackPressed();
                 break;
         }
@@ -112,9 +115,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        // This will be called either automatically for you on 2.0
-        // or later, or by the code above on earlier versions of the
-        // platform.
+        // For good practice, this will be called either automatically on 2.0 or later, or from onOptionsItemSelected the code above on earlier versions.
         Intent returnIntent = new Intent();
         if(originalLikeValue != likeValue) {
             FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById(String.valueOf(getIntent().getIntExtra("recipeId", 0)));
@@ -129,9 +130,10 @@ public class MainActivity extends ActionBarActivity {
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
         overridePendingTransition(R.anim.hold, R.anim.slide_out_left);
-        return;
+        
     }
 
+    //Retrieves DB instance, duplicated from the Main List Activity, should probably be made in a class
     public DataBaseHelper retrieveDBInstance(){
 
         DataBaseHelper myDbHelper = new DataBaseHelper(this);
