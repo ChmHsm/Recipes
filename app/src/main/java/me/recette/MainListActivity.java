@@ -20,20 +20,25 @@ import android.os.Bundle;
 
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.melnykov.fab.FloatingActionButton;
+import com.melnykov.fab.ScrollDirectionListener;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -55,6 +60,7 @@ public class MainListActivity extends ActionBarActivity {
     private ArrayList<FullRecipe> recipes;
     private RecepiesAdapter recipesAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +70,25 @@ public class MainListActivity extends ActionBarActivity {
         setTitle(R.string.main_list_activity_title);
         //No need for a back arrow in first activity, but keeping it commented
         // for future eventual use
-        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
+        /*@Override
+    public void onBackPressed() {
+        // For good practice, this will be called either automatically on 2.0 or later, or from onOptionsItemSelected the code above on earlier versions.
+        Intent returnIntent = new Intent();
+        if(originalLikeValue != likeValue) {
+            FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById(String.valueOf(getIntent().getIntExtra("recipeId", 0)));
+            tmpRecipe.setAimer(likeValue);
+            retrieveDBInstance().updateRecipe(tmpRecipe);
+            Log.d("Back pressed", "recipe " + tmpRecipe.getName() + " like value changed to " + tmpRecipe.getAimer());
+            returnIntent.putExtra("result", true);
+        }
+        else{
+            returnIntent.putExtra("result", false);
+        }
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_left);
+
+    }*/
         gridView = (GridView) findViewById(R.id.gridView);
 
 
@@ -90,8 +113,16 @@ public class MainListActivity extends ActionBarActivity {
         tmpRecipe.setName("Brochettes de kefta");
         retrieveDBInstance().updateRecipe(tmpRecipe);
         updateList();*/
-
-
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToListView(gridView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainListActivity.this, NewRecipeActivity.class);
+                startActivityForResult(intent, 2);
+                overridePendingTransition( R.anim.bottom_up, R.anim.hold);
+            }
+        });
 
     }
 

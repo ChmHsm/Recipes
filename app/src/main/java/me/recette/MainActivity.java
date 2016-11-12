@@ -30,8 +30,8 @@ public class MainActivity extends ActionBarActivity {
     private TextView recipePreparationTextView;
     private LinearLayout recipeImageView;
     private LikeButtonView recipeLikeButtonView;
-    private boolean originalLikeValue; // Stores the original "like" value or the recipe
-    public static boolean likeValue; // Stores the final like value chosen by the user. That way, the db is only accessed in onBackPressed if the likeValue != originalValue
+    private boolean originalLikeValue; // Stores the original "like" value for the recipe
+    public static boolean likeValue; // Contains the last like value chosen by the user when exiting the Activity. That way, the db is only accessed in onBackPressed if the likeValue != originalValue
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,7 @@ public class MainActivity extends ActionBarActivity {
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
         overridePendingTransition(R.anim.hold, R.anim.slide_out_left);
-        
+
     }
 
     //Retrieves DB instance, duplicated from the Main List Activity, should probably be made in a class

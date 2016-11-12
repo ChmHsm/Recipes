@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <me.recette.DotsView
+    <me.recette.LikeAnimation.DotsView
         android:id="@+id/vDotsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"/>
 
-    <me.recette.CircleView
+    <me.recette.LikeAnimation.CircleView
         android:id="@+id/vCircle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

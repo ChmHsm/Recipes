@@ -1,4 +1,4 @@
-package me.recette;
+package me.recette.LikeAnimation;
 
 import android.animation.ArgbEvaluator;
 import android.content.Context;

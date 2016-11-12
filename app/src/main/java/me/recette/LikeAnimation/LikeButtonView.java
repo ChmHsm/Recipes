@@ -1,4 +1,4 @@
-package me.recette;
+package me.recette.LikeAnimation;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,6 +19,8 @@ import android.widget.ImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.recette.MainActivity;
+import me.recette.R;
 
 /**
  * Created by Me on 04/11/2016.
