@@ -1,61 +1,10 @@
 <resources>
-    <string name="app_name">Recette</string>
+    <string name="app_name">Recipes</string>
 
-    <string name="main_activity_title">Recette</string>
+    <string name="main_activity_title">Recipe</string>
     <string name="action_settings">Settings</string>
-
-    <string-array name="recipes_names">
-        <item>Brochettes de Kefta</item>
-        <item>Salade de carrottes</item>
-        <item>Petits farcis à la marocaine</item>
-        <item>Boulettes de viande</item>
-        <item>Omlette de courgette</item>
-        <item>Aubergine à l\'italienne</item>
-        <item>Salade des aubergines - Denjal</item>
-        <item>pizza rapide</item>
-        <item>Hssouwa Belboula</item>
-        <item>Tchicha la soupe de blé</item>
-        <item>salade de poulet  aux pommes et au fenouil</item>
-        <item>Madelaines faciles</item>
-        <item>Croissant fourré au thon</item>
-        <item>Wok poulet-légumes</item>
-        <item>Velouté de brocoli</item>
-        <item>Tagliatelles de légumes</item>
-        <item>Gratin dauphinois</item>
-        <item>Salade de penne</item>
-        <item>Sardines grillées au four</item>
-        <item>riz aux oignons</item>
-        <item>Emincé de boeuf à la moutarde</item>
-    </string-array>
-
-    <string-array name="recipes_images_names">
-        <item>brochettes_kefta</item>
-        <item>salade_carottes</item>
-        <item>farcis</item>
-        <item>boulettes_viande</item>
-        <item>omelette_courgettes</item>
-        <item>aubergine_a_l_italienne</item>
-        <item>salade_aubergine</item>
-        <item>pizza_rapide</item>
-        <item>hssoua_belboula</item>
-        <item>dchicha</item>
-        <item>salade_poulet_pommes</item>
-        <item>madeleines_faciles</item>
-        <item>croissants_au_thon</item>
-        <item>wok_poulet_legumes</item>
-        <item>veloute_brocoli</item>
-        <item>tagliatelles_legumes</item>
-        <item>gratin_dauphinois</item>
-        <item>salade_penne</item>
-        <item>sardines_grillees_four</item>
-        <item>riz_oignons</item>
-        <item>emince_boeuf_moutarde</item>
-    </string-array>
-
     <string name="title_activity_main_list">MainListActivity</string>
     <string name="main_list_activity_title">Recipes</string>
     <string name="unavailable">N/A</string>
     <string name="search">Chercher</string>
-
-    <string name="hello_world">Hello world!</string>
 </resources>
