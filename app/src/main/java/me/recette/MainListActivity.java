@@ -50,6 +50,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import me.recette.LikeAnimation.LikeButtonView;
+
 
 //This is the first Activity containing the GridView
 // TODO ActionBarActivity is deprecated, to be fixed
@@ -59,6 +61,10 @@ public class MainListActivity extends ActionBarActivity {
     private Toolbar toolbar;
     private ArrayList<FullRecipe> recipes;
     private RecepiesAdapter recipesAdapter;
+    private LikeButtonView recipeLikeButtonView;
+    private LikeButtonView recipeDifficultyButtonView;
+    private LikeButtonView recipeCostButtonView;
+    private LikeButtonView recipeTimeButtonView;
 
 
     @Override
@@ -70,25 +76,7 @@ public class MainListActivity extends ActionBarActivity {
         setTitle(R.string.main_list_activity_title);
         //No need for a back arrow in first activity, but keeping it commented
         // for future eventual use
-        /*@Override
-    public void onBackPressed() {
-        // For good practice, this will be called either automatically on 2.0 or later, or from onOptionsItemSelected the code above on earlier versions.
-        Intent returnIntent = new Intent();
-        if(originalLikeValue != likeValue) {
-            FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById(String.valueOf(getIntent().getIntExtra("recipeId", 0)));
-            tmpRecipe.setAimer(likeValue);
-            retrieveDBInstance().updateRecipe(tmpRecipe);
-            Log.d("Back pressed", "recipe " + tmpRecipe.getName() + " like value changed to " + tmpRecipe.getAimer());
-            returnIntent.putExtra("result", true);
-        }
-        else{
-            returnIntent.putExtra("result", false);
-        }
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-        overridePendingTransition(R.anim.hold, R.anim.slide_out_left);
 
-    }*/
         gridView = (GridView) findViewById(R.id.gridView);
 
 
@@ -120,9 +108,23 @@ public class MainListActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainListActivity.this, NewRecipeActivity.class);
                 startActivityForResult(intent, 2);
-                overridePendingTransition( R.anim.bottom_up, R.anim.hold);
+                overridePendingTransition(R.anim.bottom_up, R.anim.hold);
             }
         });
+
+        recipeLikeButtonView = (LikeButtonView) findViewById(R.id.recipeLikeButtonView);
+        recipeCostButtonView = (LikeButtonView) findViewById(R.id.recipeCostButtonView);
+        recipeDifficultyButtonView = (LikeButtonView) findViewById(R.id.recipeDifficultyButtonView);
+        recipeTimeButtonView = (LikeButtonView) findViewById(R.id.recipeTimeButtonView);
+
+        recipeLikeButtonView.setLayoutName("view_like_button");
+        recipeCostButtonView.setLayoutName("view_cost_button");
+        recipeTimeButtonView.setLayoutName("view_time_button");
+        recipeDifficultyButtonView.setLayoutName("view_difficulty_button");
+        recipeLikeButtonView.init();
+        recipeCostButtonView.init();
+        recipeDifficultyButtonView.init();
+        recipeTimeButtonView.init();
 
     }
 

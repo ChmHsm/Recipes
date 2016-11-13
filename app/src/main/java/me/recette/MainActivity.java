@@ -57,6 +57,8 @@ public class MainActivity extends ActionBarActivity {
         recipePreparationTextView = (TextView) findViewById(R.id.textPreparation);
         recipeImageView = (LinearLayout) findViewById(R.id.recipeImageView);
         recipeLikeButtonView = (LikeButtonView) findViewById(R.id.recipeLikeButtonView);
+        recipeLikeButtonView.setLayoutName("view_like_button");
+        recipeLikeButtonView.init();
 
         if(getIntent().getStringExtra("recipeName")!=null) recipeTextView.setText(getIntent().getStringExtra("recipeName"));
         if(getIntent().getStringExtra("recipeIngredients")!=null) recipeIngredientsTextView.setText(getIntent().getStringExtra("recipeIngredients"));

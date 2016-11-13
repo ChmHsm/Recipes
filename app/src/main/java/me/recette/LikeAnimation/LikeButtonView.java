@@ -29,6 +29,8 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
     private static final DecelerateInterpolator DECCELERATE_INTERPOLATOR = new DecelerateInterpolator();
     private static final AccelerateDecelerateInterpolator ACCELERATE_DECELERATE_INTERPOLATOR = new AccelerateDecelerateInterpolator();
     private static final OvershootInterpolator OVERSHOOT_INTERPOLATOR = new OvershootInterpolator(4);
+    private String layoutName;
+    private Context context;
 
     @Bind(R.id.ivStar)
     ImageView ivStar;
@@ -42,36 +44,69 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
 
     public LikeButtonView(Context context) {
         super(context);
-        init();
+        this.context = context;
+        //init();
     }
 
     public LikeButtonView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        this.context = context;
+        //init();
     }
 
     public LikeButtonView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        this.context = context;
+        //init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public LikeButtonView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        this.context = context;
+        //init();
     }
 
-    private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_like_button, this, true);
+    public void init() {
+        //TODO retreive layoutName and inject it instead of view_like_button
+        int layoutID = getResources().getIdentifier(layoutName, "layout", context.getPackageName());
+        LayoutInflater.from(getContext()).inflate(layoutID, this, true);
         ButterKnife.bind(this);
         setOnClickListener(this);
+    }
+
+    public String getLayoutName() {
+        return layoutName;
+    }
+
+    public void setLayoutName(String layoutName) {
+        this.layoutName = layoutName;
     }
 
     @Override
     public void onClick(View v) {
         MainActivity.likeValue = !MainActivity.likeValue;
         isChecked = !isChecked;
-        ivStar.setImageResource(isChecked ? R.drawable.favorite_red : R.drawable.favorite_icon);
+        int drawable1 = 0;
+        int drawable2 = 0;
+        if(layoutName.equals("view_like_button")) {
+            drawable1 = getResources().getIdentifier("favorite_red", "drawable", context.getPackageName());
+            drawable2 = getResources().getIdentifier("favorite_icon", "drawable", context.getPackageName());
+        }
+        if(layoutName.equals("view_cost_button")) {
+            drawable1 = getResources().getIdentifier("euro_icon_red", "drawable", context.getPackageName());
+            drawable2 = getResources().getIdentifier("euro_icon", "drawable", context.getPackageName());
+        }
+        if(layoutName.equals("view_difficulty_button")) {
+            drawable1 = getResources().getIdentifier("level_icon_red", "drawable", context.getPackageName());
+            drawable2 = getResources().getIdentifier("level_icon", "drawable", context.getPackageName());
+        }
+        if(layoutName.equals("view_time_button")) {
+            drawable1 = getResources().getIdentifier("alarm_icon_red", "drawable", context.getPackageName());
+            drawable2 = getResources().getIdentifier("alarm_icon", "drawable", context.getPackageName());
+        }
+
+        ivStar.setImageResource(isChecked ? drawable1 : drawable2);
 
         if (animatorSet != null) {
             animatorSet.cancel();
