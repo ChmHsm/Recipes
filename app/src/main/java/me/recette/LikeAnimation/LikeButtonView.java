@@ -8,6 +8,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.recette.MainActivity;
+import me.recette.MainListActivity;
 import me.recette.R;
 
 /**
@@ -92,18 +94,33 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
         if(layoutName.equals("view_like_button")) {
             drawable1 = getResources().getIdentifier("favorite_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("favorite_icon", "drawable", context.getPackageName());
+            //Log.d("Cost Filter LikeButton", String.valueOf(MainListActivity.likeFilter));
+        }
+        if(layoutName.equals("view_like_button_main_list_activity")) {
+            drawable1 = getResources().getIdentifier("favorite_red", "drawable", context.getPackageName());
+            drawable2 = getResources().getIdentifier("favorite_icon", "drawable", context.getPackageName());
+            if(isChecked) MainListActivity.likeFilter = '1';
+            else MainListActivity.likeFilter = '0';
+            //Log.d("Cost Filter LikeButton", String.valueOf(MainListActivity.likeFilter));
         }
         if(layoutName.equals("view_cost_button")) {
             drawable1 = getResources().getIdentifier("euro_icon_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("euro_icon", "drawable", context.getPackageName());
+            if(isChecked) MainListActivity.costFilter = '1';
+            else MainListActivity.costFilter = '0';
+            //Log.d("Cost Filter", String.valueOf(MainListActivity.costFilter));
         }
         if(layoutName.equals("view_difficulty_button")) {
             drawable1 = getResources().getIdentifier("level_icon_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("level_icon", "drawable", context.getPackageName());
+            if(isChecked) MainListActivity.difficultyFilter = '1';
+            else MainListActivity.difficultyFilter = '0';
         }
         if(layoutName.equals("view_time_button")) {
             drawable1 = getResources().getIdentifier("alarm_icon_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("alarm_icon", "drawable", context.getPackageName());
+            if(isChecked) MainListActivity.timeFilter = '1';
+            else MainListActivity.timeFilter = '0';
         }
 
         ivStar.setImageResource(isChecked ? drawable1 : drawable2);
@@ -167,6 +184,8 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
 
             animatorSet.start();
         }
+
+        MainListActivity.performFiltering();
     }
 
     @Override

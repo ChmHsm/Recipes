@@ -11,7 +11,7 @@
     <string name="recipe_name">Nom recette</string>
     <string name="difficulty_name">Niveau difficulté</string>
     <string name="time_to_cook_name">temps préparation en min.</string>
-    <string name="recipe_cost_name">Coût recette en min.</string>
+    <string name="recipe_cost_name">Coût recette en dh</string>
     <string name="recipe_ingredients_description">Ingrédients</string>
     <string name="recipe_preparation_description">Préparation</string>
     <string name="title_activity_new_recipe">NewRecipeActivity</string>

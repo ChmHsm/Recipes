@@ -60,11 +60,17 @@ public class MainListActivity extends ActionBarActivity {
     private GridView gridView;
     private Toolbar toolbar;
     private ArrayList<FullRecipe> recipes;
-    private RecepiesAdapter recipesAdapter;
+    private static RecepiesAdapter recipesAdapter;
     private LikeButtonView recipeLikeButtonView;
     private LikeButtonView recipeDifficultyButtonView;
     private LikeButtonView recipeCostButtonView;
     private LikeButtonView recipeTimeButtonView;
+
+    public static char likeFilter;
+    public static char difficultyFilter;
+    public static char timeFilter;
+    public static char costFilter;
+    private static String textForFiltering;
 
 
     @Override
@@ -117,7 +123,7 @@ public class MainListActivity extends ActionBarActivity {
         recipeDifficultyButtonView = (LikeButtonView) findViewById(R.id.recipeDifficultyButtonView);
         recipeTimeButtonView = (LikeButtonView) findViewById(R.id.recipeTimeButtonView);
 
-        recipeLikeButtonView.setLayoutName("view_like_button");
+        recipeLikeButtonView.setLayoutName("view_like_button_main_list_activity");
         recipeCostButtonView.setLayoutName("view_cost_button");
         recipeTimeButtonView.setLayoutName("view_time_button");
         recipeDifficultyButtonView.setLayoutName("view_difficulty_button");
@@ -125,6 +131,12 @@ public class MainListActivity extends ActionBarActivity {
         recipeCostButtonView.init();
         recipeDifficultyButtonView.init();
         recipeTimeButtonView.init();
+
+        likeFilter = '0';
+        costFilter = '0';
+        timeFilter = '0';
+        difficultyFilter = '0';
+        textForFiltering = "";
 
     }
 
@@ -163,7 +175,8 @@ public class MainListActivity extends ActionBarActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                recipesAdapter.getFilter().filter(newText);
+                textForFiltering = newText;
+                performFiltering();
                 return false;
             }
         });
@@ -210,6 +223,7 @@ public class MainListActivity extends ActionBarActivity {
             if(resultCode == Activity.RESULT_OK){
                 if(data.getBooleanExtra("result", false)){
                     updateList();
+                    performFiltering();
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -241,6 +255,10 @@ public class MainListActivity extends ActionBarActivity {
         recipesAdapter = new RecepiesAdapter(this, recipes, this);
         gridView.setAdapter(recipesAdapter);
         recipesAdapter.notifyDataSetChanged();
+    }
+
+    public static void performFiltering(){
+        recipesAdapter.getFilter().filter(textForFiltering+likeFilter+costFilter+timeFilter+difficultyFilter);
     }
 
     //Retrieves DB instance
@@ -343,15 +361,32 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
         //Invoked in a worker thread to filter the data according to the constraint.
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
             FilterResults results=new FilterResults();
-            if(constraint!=null && constraint.length()>0){
+            int length = constraint.length();
+
+            boolean filterLike = (String.valueOf(constraint.subSequence(length - 4, length - 3)).equals("1"));
+            Log.d("Filter sequence", String.valueOf(constraint));
+            boolean filterCost = (String.valueOf(constraint.subSequence(length - 3, length - 2)).toString().equals("1"));
+            boolean filterTime = (String.valueOf(constraint.subSequence(length - 2, length - 1)).toString().equals("1"));
+            boolean filterDifficulty = (String.valueOf(constraint.subSequence(length - 1, length)).toString().equals("1"));
+
+            String sequenceToFilterOn = "";
+
+            if(constraint!=null && constraint.length()>=4){
+                Log.d("Filter sequence", String.valueOf(constraint)+" not null && length >= 4");
+                if(constraint.length() > 4) {
+                    Log.d("Filter sequence", String.valueOf(constraint)+" not null && length > 4");
+                    sequenceToFilterOn = constraint.subSequence(0, length - 4).toString();
+                }
                 ArrayList<FullRecipe> filteredRecipes = new ArrayList<>();
                 for(int i=0;i<mStringFilterList.size();i++){
-                    if((mStringFilterList.get(i).getName().toUpperCase())
-                            .contains(constraint.toString().toUpperCase())) {
+                    if((mStringFilterList.get(i).getName().toUpperCase()).contains(sequenceToFilterOn.toUpperCase())
+                            && mStringFilterList.get(i).getAimer() == filterLike) {
+                        Log.d("Filtering", "one item matching");
                         FullRecipe fullRecipe = new FullRecipe(mStringFilterList.get(i));
-                        fullRecipe.setName(mStringFilterList.get(i).getName());
-                        fullRecipe.setId(mStringFilterList.get(i).getId());
+                        //fullRecipe.setName(mStringFilterList.get(i).getName());
+                        //fullRecipe.setId(mStringFilterList.get(i).getId());
                         filteredRecipes.add(fullRecipe);
                     }
                 }
