@@ -5,7 +5,7 @@
     <string name="action_settings">Réglages</string>
     <string name="main_list_activity_title">Recipes</string>
     <string name="unavailable">N/A</string>
-    <string name="search">Chercher</string>
+    <string name="search">Chercher...</string>
     <string name="new_recipe_name">Nouvelle recette</string>
     <string name="recipe_name">Nom recette</string>
     <string name="difficulty_name">Niveau difficulté</string>
