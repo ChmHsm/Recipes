@@ -18,7 +18,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -28,15 +28,16 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/recipe_name"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:layout_weight="1"/>
 
                 <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="1"
                     />
             </LinearLayout>
 
@@ -48,15 +49,17 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/difficulty_name"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:layout_weight="1"/>
 
                 <Spinner
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/difficultySpinner" />
+                    android:id="@+id/difficultySpinner"
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -68,14 +71,16 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/recipe_cost_name"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:layout_weight="1"/>
 
                 <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     />
             </LinearLayout>
 
@@ -87,14 +92,16 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/time_to_cook_name"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:layout_weight="1"/>
 
                 <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     />
             </LinearLayout>
 
