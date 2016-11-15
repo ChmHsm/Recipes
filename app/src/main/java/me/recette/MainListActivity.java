@@ -381,14 +381,29 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
                 }
                 ArrayList<FullRecipe> filteredRecipes = new ArrayList<>();
                 for(int i=0;i<mStringFilterList.size();i++){
-                    if((mStringFilterList.get(i).getName().toUpperCase()).contains(sequenceToFilterOn.toUpperCase())
-                            && mStringFilterList.get(i).getAimer() == filterLike) {
-                        Log.d("Filtering", "one item matching");
-                        FullRecipe fullRecipe = new FullRecipe(mStringFilterList.get(i));
-                        //fullRecipe.setName(mStringFilterList.get(i).getName());
-                        //fullRecipe.setId(mStringFilterList.get(i).getId());
-                        filteredRecipes.add(fullRecipe);
+                    if(filterLike) {
+
+                        if ((mStringFilterList.get(i).getName().toUpperCase()).contains(sequenceToFilterOn.toUpperCase())
+                                && mStringFilterList.get(i).getAimer() == filterLike) {
+                            Log.d("Filtering", "one item matching");
+                            FullRecipe fullRecipe = new FullRecipe(mStringFilterList.get(i));
+                            //fullRecipe.setName(mStringFilterList.get(i).getName());
+                            //fullRecipe.setId(mStringFilterList.get(i).getId());
+                            filteredRecipes.add(fullRecipe);
+                        }
                     }
+
+                    else{
+                        if ((mStringFilterList.get(i).getName().toUpperCase()).contains(sequenceToFilterOn.toUpperCase())) {
+                            Log.d("Filtering", "one item matching");
+                            FullRecipe fullRecipe = new FullRecipe(mStringFilterList.get(i));
+                            //fullRecipe.setName(mStringFilterList.get(i).getName());
+                            //fullRecipe.setId(mStringFilterList.get(i).getId());
+                            filteredRecipes.add(fullRecipe);
+                        }
+                    }
+
+
                 }
                 results.count=filteredRecipes.size();
                 results.values=filteredRecipes;

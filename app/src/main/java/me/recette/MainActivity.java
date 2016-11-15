@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         if(getIntent().getStringExtra("recipeName")!=null) setTitle(getIntent().getStringExtra("recipeName"));
-        else {setTitle(R.string.main_activity_title);}
+        else {setTitle("Title");}
         if(getSupportActionBar() != null){
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
