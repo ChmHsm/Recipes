@@ -13,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -89,8 +91,10 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
     public void onClick(View v) {
         MainActivity.likeValue = !MainActivity.likeValue;
         isChecked = !isChecked;
+
         int drawable1 = 0;
         int drawable2 = 0;
+
         if(layoutName.equals("view_like_button")) {
             drawable1 = getResources().getIdentifier("favorite_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("favorite_icon", "drawable", context.getPackageName());
@@ -101,6 +105,8 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
             drawable2 = getResources().getIdentifier("favorite_icon", "drawable", context.getPackageName());
             if(isChecked) MainListActivity.likeFilter = '1';
             else MainListActivity.likeFilter = '0';
+
+            //ivStar.setAnimation(an);
             //Log.d("Cost Filter LikeButton", String.valueOf(MainListActivity.likeFilter));
         }
         if(layoutName.equals("view_cost_button")) {
@@ -111,7 +117,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
             //Log.d("Cost Filter", String.valueOf(MainListActivity.costFilter));
         }
         if(layoutName.equals("view_difficulty_button")) {
-            drawable1 = getResources().getIdentifier("level_icon_red", "drawable", context.getPackageName());
+            drawable1 = getResources().getIdentifier("difficulty_icon_reversed", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("level_icon", "drawable", context.getPackageName());
             if(isChecked) MainListActivity.difficultyFilter = '1';
             else MainListActivity.difficultyFilter = '0';
@@ -170,7 +176,6 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
                     starScaleXAnimator,
                     dotsAnimator
             );
-
             animatorSet.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationCancel(Animator animation) {
@@ -181,6 +186,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
                     ivStar.setScaleY(1);
                 }
             });
+
 
             animatorSet.start();
         }
