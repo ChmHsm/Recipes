@@ -1,4 +1,4 @@
-![alt tag](https://cloud.githubusercontent.com/assets/12183061/20242892/ed751682-a936-11e6-8e39-cb8d12ab7135.png)
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20365579/4301ffd8-ac3f-11e6-9fc4-c67d785e167b.png)
 ![alt tag](https://cloud.githubusercontent.com/assets/12183061/20321220/9b394b76-ab6c-11e6-81a8-b227624d329a.png)
 
 Typical Android app about recipes (Content is in French for the moment) containing 3 activities:
