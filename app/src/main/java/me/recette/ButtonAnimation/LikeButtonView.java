@@ -1,25 +1,22 @@
-package me.recette.LikeAnimation;
+package me.recette.ButtonAnimation;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.recette.MainActivity;
@@ -42,6 +39,12 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
     DotsView vDotsView;
     @Bind(R.id.vCircle)
     CircleView vCircle;
+    private ImageView difficultyDownwardArrow;
+    private ImageView difficultyUpwardArrow;
+    private ImageView timeDownwardArrow;
+    private ImageView timeUpwardArrow;
+    private ImageView costDownwardArrow;
+    private ImageView costUpwardArrow;
 
     private boolean isChecked;
     private AnimatorSet animatorSet;
@@ -72,9 +75,15 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
     }
 
     public void init() {
-        //TODO retreive layoutName and inject it instead of view_like_button
+
         int layoutID = getResources().getIdentifier(layoutName, "layout", context.getPackageName());
         LayoutInflater.from(getContext()).inflate(layoutID, this, true);
+        difficultyDownwardArrow = (ImageView) ((Activity) context).findViewById(R.id.difficultyDownwardArrow);
+        difficultyUpwardArrow = (ImageView) ((Activity) context).findViewById(R.id.difficultyUpwardArrow);
+        timeDownwardArrow = (ImageView) ((Activity) context).findViewById(R.id.timeDownwardArrow);
+        timeUpwardArrow = (ImageView) ((Activity) context).findViewById(R.id.timeUpwardArrow);
+        costDownwardArrow = (ImageView) ((Activity) context).findViewById(R.id.costDownwardArrow);
+        costUpwardArrow = (ImageView) ((Activity) context).findViewById(R.id.costUpwardArrow);
         ButterKnife.bind(this);
         setOnClickListener(this);
     }
@@ -94,24 +103,28 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
 
         int drawable1 = 0;
         int drawable2 = 0;
+        int drawable3 = getResources().getIdentifier("upward_arrow", "drawable", context.getPackageName());
+        int drawable4 = getResources().getIdentifier("upward_arrow_red", "drawable", context.getPackageName());
+        int drawable5 = getResources().getIdentifier("downward_arrow", "drawable", context.getPackageName());
+        int drawable6 = getResources().getIdentifier("downward_arrow_red", "drawable", context.getPackageName());
 
         if(layoutName.equals("view_like_button")) {
             drawable1 = getResources().getIdentifier("favorite_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("favorite_icon", "drawable", context.getPackageName());
-            //Log.d("Cost Filter LikeButton", String.valueOf(MainListActivity.likeFilter));
         }
         if(layoutName.equals("view_like_button_main_list_activity")) {
             drawable1 = getResources().getIdentifier("favorite_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("favorite_icon", "drawable", context.getPackageName());
+
             if(isChecked) MainListActivity.likeFilter = '1';
             else MainListActivity.likeFilter = '0';
 
-            //ivStar.setAnimation(an);
-            //Log.d("Cost Filter LikeButton", String.valueOf(MainListActivity.likeFilter));
         }
         if(layoutName.equals("view_cost_button")) {
             drawable1 = getResources().getIdentifier("euro_icon_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("euro_icon", "drawable", context.getPackageName());
+            costUpwardArrow.setImageResource(isChecked ? drawable4 : drawable3);
+            costDownwardArrow.setImageResource(isChecked ? drawable5 : drawable6);
             if(isChecked) MainListActivity.costFilter = '1';
             else MainListActivity.costFilter = '0';
             //Log.d("Cost Filter", String.valueOf(MainListActivity.costFilter));
@@ -119,12 +132,16 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
         if(layoutName.equals("view_difficulty_button")) {
             drawable1 = getResources().getIdentifier("difficulty_icon_reversed", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("level_icon", "drawable", context.getPackageName());
+            difficultyUpwardArrow.setImageResource(isChecked ? drawable4 : drawable3);
+            difficultyDownwardArrow.setImageResource(isChecked ? drawable5 : drawable6);
             if(isChecked) MainListActivity.difficultyFilter = '1';
             else MainListActivity.difficultyFilter = '0';
         }
         if(layoutName.equals("view_time_button")) {
             drawable1 = getResources().getIdentifier("alarm_icon_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("alarm_icon", "drawable", context.getPackageName());
+            timeUpwardArrow.setImageResource(isChecked ? drawable4 : drawable3);
+            timeDownwardArrow.setImageResource(isChecked ? drawable5 : drawable6);
             if(isChecked) MainListActivity.timeFilter = '1';
             else MainListActivity.timeFilter = '0';
         }

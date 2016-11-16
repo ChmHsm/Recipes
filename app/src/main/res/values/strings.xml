@@ -14,6 +14,10 @@
     <string name="recipe_ingredients_description">Ingredients</string>
     <string name="recipe_preparation_description">Instructions</string>
     <string name="like">Like</string>
+    <string name="time_name">Time</string>
+    <string name="cost_name">Cost</string>
+
+    <string name="desc">Description</string>
 
     <string-array name="difficulty_array">
         <item>1</item>

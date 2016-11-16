@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.os.PersistableBundle;
 import android.support.v4.app.NotificationCompat;
@@ -26,19 +24,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import android.widget.ListView;
 import android.widget.TextView;
 
 
 import com.melnykov.fab.FloatingActionButton;
-import com.melnykov.fab.ScrollDirectionListener;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -50,7 +45,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import me.recette.LikeAnimation.LikeButtonView;
+import me.recette.ButtonAnimation.LikeButtonView;
 
 
 //This is the first Activity containing the GridView
@@ -71,6 +66,8 @@ public class MainListActivity extends ActionBarActivity {
     public static char timeFilter;
     public static char costFilter;
     private static String textForFiltering;
+
+
 
 
     @Override
@@ -118,6 +115,7 @@ public class MainListActivity extends ActionBarActivity {
             }
         });
 
+
         recipeLikeButtonView = (LikeButtonView) findViewById(R.id.recipeLikeButtonView);
         recipeCostButtonView = (LikeButtonView) findViewById(R.id.recipeCostButtonView);
         recipeDifficultyButtonView = (LikeButtonView) findViewById(R.id.recipeDifficultyButtonView);
@@ -137,6 +135,8 @@ public class MainListActivity extends ActionBarActivity {
         timeFilter = '0';
         difficultyFilter = '0';
         textForFiltering = "";
+
+
 
     }
 

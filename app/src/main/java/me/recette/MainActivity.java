@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import me.recette.LikeAnimation.LikeButtonView;
+import me.recette.ButtonAnimation.LikeButtonView;
 
 //Activity for recipe's details
 //TODO ActionBarActivity is deprecated, should be fixed.

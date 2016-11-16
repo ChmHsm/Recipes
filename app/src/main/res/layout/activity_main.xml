@@ -57,12 +57,12 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center">
-                        <me.recette.LikeAnimation.LikeButtonView
+                        <me.recette.ButtonAnimation.LikeButtonView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/recipeLikeButtonView">
 
-                        </me.recette.LikeAnimation.LikeButtonView>
+                        </me.recette.ButtonAnimation.LikeButtonView>
 
                     </FrameLayout>
 

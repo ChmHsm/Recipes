@@ -1,4 +1,4 @@
-package me.recette.LikeAnimation;
+package me.recette.ButtonAnimation;
 
 /**
  * Created by Me on 04/11/2016.

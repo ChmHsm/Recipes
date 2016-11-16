@@ -14,6 +14,11 @@
     <string name="recipe_ingredients_description">Ingrédients</string>
     <string name="recipe_preparation_description">Préparation</string>
     <string name="like">Aimer</string>
+    <string name="time_name">Temps</string>
+    <string name="cost_name">Coût</string>
+
+    <string name="desc">Description</string>
+
     <string-array name="difficulty_array">
         <item>1</item>
         <item>2</item>
