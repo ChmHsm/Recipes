@@ -1,5 +1,6 @@
 ![alt tag](https://cloud.githubusercontent.com/assets/12183061/20365579/4301ffd8-ac3f-11e6-9fc4-c67d785e167b.png)
 ![alt tag](https://cloud.githubusercontent.com/assets/12183061/20321220/9b394b76-ab6c-11e6-81a8-b227624d329a.png)
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20366376/b739d058-ac42-11e6-80b3-57ead65a3a2f.png)
 
 Typical Android app about recipes (Content is in French for the moment) containing 3 activities:
 - MainListActivity: A GridView Activity showing all the items (recipes) available.
