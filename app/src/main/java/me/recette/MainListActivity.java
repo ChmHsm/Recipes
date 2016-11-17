@@ -24,6 +24,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -91,6 +97,7 @@ public class MainListActivity extends ActionBarActivity {
         gridView.setAdapter(recipesAdapter);
 
 
+
         //Used for testing DBHelper methods (Database requests)
         /*FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById("1");
         tmpRecipe.setName("New Recipe 4");
@@ -136,10 +143,7 @@ public class MainListActivity extends ActionBarActivity {
         difficultyFilter = '0';
         textForFiltering = "";
 
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -249,12 +253,20 @@ public class MainListActivity extends ActionBarActivity {
         notificationManager.notify(0, mBuilder.build());//Required on Gingerbread and below
     }
 
+    //TODO animate gridView when list updates, this method is to be called in updatelist()
+    private void animateGridView(){
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
+        gridView.setAnimation(anim);
+        anim.start();
+    }
+
     // Retrieves a new DB instance and updates the recipes object containing ALL the recipes and updates the Views
     public void updateList(){
         recipes = retrieveDBInstance().getAllRecipes();
         recipesAdapter = new RecepiesAdapter(this, recipes, this);
         gridView.setAdapter(recipesAdapter);
         recipesAdapter.notifyDataSetChanged();
+        //animateGridView();
     }
 
     public static void performFiltering(){
