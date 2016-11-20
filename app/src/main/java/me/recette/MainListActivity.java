@@ -24,12 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -50,6 +46,8 @@ import java.io.IOException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import me.recette.ButtonAnimation.LikeButtonView;
 
@@ -61,7 +59,7 @@ public class MainListActivity extends ActionBarActivity {
     private GridView gridView;
     private Toolbar toolbar;
     private ArrayList<FullRecipe> recipes;
-    private static RecepiesAdapter recipesAdapter;
+    private static RecipesAdapter recipesAdapter;
     private LikeButtonView recipeLikeButtonView;
     private LikeButtonView recipeDifficultyButtonView;
     private LikeButtonView recipeCostButtonView;
@@ -93,7 +91,7 @@ public class MainListActivity extends ActionBarActivity {
         recipes = retrieveDBInstance().getAllRecipes();
 
 
-        recipesAdapter = new RecepiesAdapter(this, recipes, this);
+        recipesAdapter = new RecipesAdapter(this, recipes, this);
         gridView.setAdapter(recipesAdapter);
 
 
@@ -263,7 +261,7 @@ public class MainListActivity extends ActionBarActivity {
     // Retrieves a new DB instance and updates the recipes object containing ALL the recipes and updates the Views
     public void updateList(){
         recipes = retrieveDBInstance().getAllRecipes();
-        recipesAdapter = new RecepiesAdapter(this, recipes, this);
+        recipesAdapter = new RecipesAdapter(this, recipes, this);
         gridView.setAdapter(recipesAdapter);
         recipesAdapter.notifyDataSetChanged();
         //animateGridView();
@@ -271,6 +269,7 @@ public class MainListActivity extends ActionBarActivity {
 
     public static void performFiltering(){
         recipesAdapter.getFilter().filter(textForFiltering+likeFilter+costFilter+timeFilter+difficultyFilter);
+        recipesAdapter.notifyDataSetChanged();
     }
 
     //Retrieves DB instance
@@ -300,8 +299,7 @@ public class MainListActivity extends ActionBarActivity {
 
 //Adapter for the GridView.
 //For images caching and management, Universal Image Loader API was used.
-//TODO fix class name typo
-class RecepiesAdapter extends BaseAdapter implements Filterable
+class RecipesAdapter extends BaseAdapter implements Filterable
 {
     ArrayList<FullRecipe> recipes;
     Context context;
@@ -311,7 +309,7 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
     private ValueFilter valueFilter;
     private Activity activity;
 
-    public RecepiesAdapter(Context context, ArrayList<FullRecipe> recipes, Activity activity){
+    public RecipesAdapter(Context context, ArrayList<FullRecipe> recipes, Activity activity){
 
         this.context = context;
         this.recipes = recipes;
@@ -377,11 +375,11 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
             FilterResults results=new FilterResults();
             int length = constraint.length();
 
-            boolean filterLike = (String.valueOf(constraint.subSequence(length - 4, length - 3)).equals("1"));
+            final boolean filterLike = (String.valueOf(constraint.subSequence(length - 4, length - 3)).equals("1"));
             Log.d("Filter sequence", String.valueOf(constraint));
-            boolean filterCost = (String.valueOf(constraint.subSequence(length - 3, length - 2)).toString().equals("1"));
-            boolean filterTime = (String.valueOf(constraint.subSequence(length - 2, length - 1)).toString().equals("1"));
-            boolean filterDifficulty = (String.valueOf(constraint.subSequence(length - 1, length)).toString().equals("1"));
+            final boolean filterCost = (String.valueOf(constraint.subSequence(length - 3, length - 2)).toString().equals("1"));
+            final boolean filterTime = (String.valueOf(constraint.subSequence(length - 2, length - 1)).toString().equals("1"));
+            final boolean filterDifficulty = (String.valueOf(constraint.subSequence(length - 1, length)).toString().equals("1"));
 
             String sequenceToFilterOn = "";
 
@@ -403,6 +401,59 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
                             //fullRecipe.setId(mStringFilterList.get(i).getId());
                             filteredRecipes.add(fullRecipe);
                         }
+
+                        //TODO figured out this isn't the proper way of sorting items in a ListView (or GridView)
+                        if(filterCost || filterTime || filterDifficulty){
+                            Collections.sort(filteredRecipes, new Comparator<FullRecipe>() {
+                                @Override
+                                public int compare(FullRecipe lhs, FullRecipe rhs) {
+                                    if(filterDifficulty){
+                                        if(lhs.getDifficulty() < rhs.getDifficulty()) return -1;
+                                        else if(lhs.getDifficulty() > rhs.getDifficulty()) return 1;
+                                        return 0;
+                                    }
+                                    else if(filterCost){
+                                        if(lhs.getCost() < rhs.getCost()) return -1;
+                                        else if(lhs.getCost() > rhs.getCost()) return 1;
+                                        return 0;
+                                    }
+                                    else if(filterTime){
+                                        if(lhs.getTime() < rhs.getTime()) return -1;
+                                        else if(lhs.getTime() > rhs.getTime()) return 1;
+                                        return 0;
+                                    }
+                                    else if(filterDifficulty && filterTime){
+                                        if(lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() < rhs.getTime()) return -1;
+                                        else if(lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() > rhs.getTime()) return 1;
+                                        else if(lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() > rhs.getTime()) return -1;
+                                        else if(lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() < rhs.getTime()) return 1;
+                                        return 0;
+                                    }
+                                    else if(filterDifficulty && filterCost){
+                                        if(lhs.getDifficulty() < rhs.getDifficulty() && lhs.getCost() < rhs.getCost()) return -1;
+                                        else if(lhs.getDifficulty() > rhs.getDifficulty() && lhs.getCost() > rhs.getCost()) return 1;
+                                        else if(lhs.getDifficulty() < rhs.getDifficulty() && lhs.getCost() > rhs.getCost()) return -1;
+                                        else if(lhs.getDifficulty() > rhs.getDifficulty() && lhs.getCost() < rhs.getCost()) return 1;
+                                        return 0;
+                                    }
+                                    else if(filterTime && filterCost){
+                                        if(lhs.getTime() < rhs.getTime() && lhs.getCost() < rhs.getCost()) return -1;
+                                        else if(lhs.getTime() > rhs.getTime() && lhs.getCost() > rhs.getCost()) return 1;
+                                        else if(lhs.getTime() < rhs.getTime() && lhs.getCost() > rhs.getCost()) return -1;
+                                        else if(lhs.getTime() > rhs.getTime() && lhs.getCost() < rhs.getCost()) return 1;
+                                        return 0;
+                                    }
+                                    else if(filterDifficulty && filterTime && filterCost){
+                                        if(lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() < rhs.getTime() && lhs.getCost() < rhs.getCost()) return -1;
+                                        else if(lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() < rhs.getTime() && lhs.getCost() > rhs.getCost()) return -1;
+                                        else if(lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() > rhs.getTime() && lhs.getCost() > rhs.getCost()) return 1;
+                                        else if(lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() > rhs.getTime() && lhs.getCost() > rhs.getCost()) return -1;
+                                        return 0;
+                                    }
+                                    return 0;
+                                }
+                            });
+                        }
                     }
 
                     else{
@@ -412,6 +463,70 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
                             //fullRecipe.setName(mStringFilterList.get(i).getName());
                             //fullRecipe.setId(mStringFilterList.get(i).getId());
                             filteredRecipes.add(fullRecipe);
+                        }
+
+                        //TODO figured out this isn't the proper way of sorting items in a ListView (or GridView)
+                        if(filterCost || filterTime || filterDifficulty){
+                            Collections.sort(filteredRecipes, new Comparator<FullRecipe>() {
+                                @Override
+                                public int compare(FullRecipe lhs, FullRecipe rhs) {
+                                    if (filterDifficulty) {
+                                        if (lhs.getDifficulty() < rhs.getDifficulty()) return -1;
+                                        else if (lhs.getDifficulty() > rhs.getDifficulty())
+                                            return 1;
+                                        return 0;
+                                    } else if (filterCost) {
+                                        if (lhs.getCost() < rhs.getCost()) return -1;
+                                        else if (lhs.getCost() > rhs.getCost()) return 1;
+                                        return 0;
+                                    } else if (filterTime) {
+                                        if (lhs.getTime() < rhs.getTime()) return -1;
+                                        else if (lhs.getTime() > rhs.getTime()) return 1;
+                                        return 0;
+                                    } else if (filterDifficulty && filterTime) {
+                                        if (lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() < rhs.getTime())
+                                            return -1;
+                                        else if (lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() > rhs.getTime())
+                                            return 1;
+                                        else if (lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() > rhs.getTime())
+                                            return -1;
+                                        else if (lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() < rhs.getTime())
+                                            return 1;
+                                        return 0;
+                                    } else if (filterDifficulty && filterCost) {
+                                        if (lhs.getDifficulty() < rhs.getDifficulty() && lhs.getCost() < rhs.getCost())
+                                            return -1;
+                                        else if (lhs.getDifficulty() > rhs.getDifficulty() && lhs.getCost() > rhs.getCost())
+                                            return 1;
+                                        else if (lhs.getDifficulty() < rhs.getDifficulty() && lhs.getCost() > rhs.getCost())
+                                            return -1;
+                                        else if (lhs.getDifficulty() > rhs.getDifficulty() && lhs.getCost() < rhs.getCost())
+                                            return 1;
+                                        return 0;
+                                    } else if (filterTime && filterCost) {
+                                        if (lhs.getTime() < rhs.getTime() && lhs.getCost() < rhs.getCost())
+                                            return -1;
+                                        else if (lhs.getTime() > rhs.getTime() && lhs.getCost() > rhs.getCost())
+                                            return 1;
+                                        else if (lhs.getTime() < rhs.getTime() && lhs.getCost() > rhs.getCost())
+                                            return -1;
+                                        else if (lhs.getTime() > rhs.getTime() && lhs.getCost() < rhs.getCost())
+                                            return 1;
+                                        return 0;
+                                    } else if (filterDifficulty && filterTime && filterCost) {
+                                        if (lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() < rhs.getTime() && lhs.getCost() < rhs.getCost())
+                                            return -1;
+                                        else if (lhs.getDifficulty() < rhs.getDifficulty() && lhs.getTime() < rhs.getTime() && lhs.getCost() > rhs.getCost())
+                                            return -1;
+                                        else if (lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() > rhs.getTime() && lhs.getCost() > rhs.getCost())
+                                            return 1;
+                                        else if (lhs.getDifficulty() > rhs.getDifficulty() && lhs.getTime() > rhs.getTime() && lhs.getCost() > rhs.getCost())
+                                            return -1;
+                                        return 0;
+                                    }
+                                    return 0;
+                                }
+                            });
                         }
                     }
 
@@ -431,8 +546,7 @@ class RecepiesAdapter extends BaseAdapter implements Filterable
         //Invoked in the UI thread to publish the filtering results in the user interface.
         @SuppressWarnings("unchecked")
         @Override
-        protected void publishResults(CharSequence constraint,
-                                      FilterResults results) {
+        protected void publishResults(CharSequence constraint, FilterResults results) {
             recipes=(ArrayList<FullRecipe>) results.values;
             notifyDataSetChanged();
         }
