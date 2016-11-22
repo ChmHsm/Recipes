@@ -18,6 +18,7 @@
     <string name="cost_name">Coût</string>
 
     <string name="desc">Description</string>
+    <string name="recipe_image">Image</string>
 
     <string-array name="difficulty_array">
         <item>1</item>

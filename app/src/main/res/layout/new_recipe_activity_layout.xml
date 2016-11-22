@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-    <LinearLayout
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -19,6 +17,12 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipeImageView"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -144,6 +148,40 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_image"
+                    android:textColor="@color/black"
+                    android:visibility="gone"/>
+
+                <at.markushi.ui.CircleButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="76dip"
+                    android:src="@drawable/image_icon"
+                    app:cb_color="@color/primary_color"
+                    app:cb_pressedRingWidth="8dip"
+                    android:id="@+id/recipeImageCircularButton"
+                    android:layout_weight="1"/>
+
+                <at.markushi.ui.CircleButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="76dip"
+                    android:src="@drawable/camera_icon"
+                    app:cb_color="@color/primary_color"
+                    app:cb_pressedRingWidth="8dip"
+                    android:layout_weight="1"/>
+
 
             </LinearLayout>
 

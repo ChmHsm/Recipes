@@ -2,21 +2,34 @@ package me.recette;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.opengl.Matrix;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.io.IOException;
+
+import at.markushi.ui.CircleButton;
 
 
 public class NewRecipeActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
     private Spinner difficultySpinner;
+    CircleButton recipeImageCircularButton;
+    public static int SELECT_IMAGE;
+    private ImageView recipeImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +48,19 @@ public class NewRecipeActivity extends ActionBarActivity {
                 this, R.array.difficulty_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficultySpinner.setAdapter(adapter);
+
+        recipeImageCircularButton = (CircleButton) findViewById(R.id.recipeImageCircularButton);
+        recipeImageCircularButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);//
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),SELECT_IMAGE);
+            }
+        });
+
+        recipeImageView = (ImageView) findViewById(R.id.recipeImageView);
 
     }
 
@@ -96,5 +122,32 @@ public class NewRecipeActivity extends ActionBarActivity {
         finish();
         overridePendingTransition(R.anim.hold, R.anim.bottom_down);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                        recipeImageView.setVisibility(View.VISIBLE);
+                        float ratio = (float)bitmap.getWidth()/bitmap.getHeight();
+                        Log.d("Height", String.valueOf(ratio));
+                        recipeImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, (int) (500 * ratio), 500, false));
+                        Log.d("New bitmap reso", Bitmap.createScaledBitmap(bitmap, 512, (int) (512 * ratio), false).getHeight()+"x"+Bitmap.createScaledBitmap(bitmap, 512, (int) (512 * ratio), false).getWidth());
+                        //recipeImageView.setImageBitmap();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //Toast.makeText(NewRecipeActivity.this, "Image selected", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else if (resultCode == Activity.RESULT_CANCELED) {
+                //Toast.makeText(NewRecipeActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                //recipeImageView.setVisibility(View.GONE);
+            }
+        }
     }
 }
