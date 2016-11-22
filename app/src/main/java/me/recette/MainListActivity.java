@@ -377,13 +377,13 @@ class RecipesAdapter extends BaseAdapter implements Filterable
 
             final boolean filterLike = (String.valueOf(constraint.subSequence(length - 4, length - 3)).equals("1"));
             Log.d("Filter sequence", String.valueOf(constraint));
-            final boolean filterCost = (String.valueOf(constraint.subSequence(length - 3, length - 2)).toString().equals("1"));
-            final boolean filterTime = (String.valueOf(constraint.subSequence(length - 2, length - 1)).toString().equals("1"));
-            final boolean filterDifficulty = (String.valueOf(constraint.subSequence(length - 1, length)).toString().equals("1"));
+            final boolean filterCost = (String.valueOf(constraint.subSequence(length - 3, length - 2)).equals("1"));
+            final boolean filterTime = (String.valueOf(constraint.subSequence(length - 2, length - 1)).equals("1"));
+            final boolean filterDifficulty = (String.valueOf(constraint.subSequence(length - 1, length)).equals("1"));
 
             String sequenceToFilterOn = "";
 
-            if(constraint!=null && constraint.length()>=4){
+            if(constraint.length()>=4){
                 Log.d("Filter sequence", String.valueOf(constraint)+" not null && length >= 4");
                 if(constraint.length() > 4) {
                     Log.d("Filter sequence", String.valueOf(constraint)+" not null && length > 4");
@@ -394,7 +394,7 @@ class RecipesAdapter extends BaseAdapter implements Filterable
                     if(filterLike) {
 
                         if ((mStringFilterList.get(i).getName().toUpperCase()).contains(sequenceToFilterOn.toUpperCase())
-                                && mStringFilterList.get(i).getAimer() == filterLike) {
+                                && mStringFilterList.get(i).getAimer()) {
                             Log.d("Filtering", "one item matching");
                             FullRecipe fullRecipe = new FullRecipe(mStringFilterList.get(i));
                             //fullRecipe.setName(mStringFilterList.get(i).getName());
@@ -402,7 +402,6 @@ class RecipesAdapter extends BaseAdapter implements Filterable
                             filteredRecipes.add(fullRecipe);
                         }
 
-                        //TODO figured out this isn't the proper way of sorting items in a ListView (or GridView)
                         if(filterCost || filterTime || filterDifficulty){
                             Collections.sort(filteredRecipes, new Comparator<FullRecipe>() {
                                 @Override
@@ -465,7 +464,6 @@ class RecipesAdapter extends BaseAdapter implements Filterable
                             filteredRecipes.add(fullRecipe);
                         }
 
-                        //TODO figured out this isn't the proper way of sorting items in a ListView (or GridView)
                         if(filterCost || filterTime || filterDifficulty){
                             Collections.sort(filteredRecipes, new Comparator<FullRecipe>() {
                                 @Override
@@ -529,16 +527,19 @@ class RecipesAdapter extends BaseAdapter implements Filterable
                             });
                         }
                     }
-
-
                 }
                 results.count=filteredRecipes.size();
                 results.values=filteredRecipes;
+                Log.d("Filtered Recipes","Filtered Recipes are as follows: ");
+                for(int i=0 ; i < filteredRecipes.size() ; i++){
+                    Log.d(filteredRecipes.get(i).getName(), "Difficulty: "+filteredRecipes.get(i).getDifficulty()+" Time: "+filteredRecipes.get(i).getTime()+" Cost: "+filteredRecipes.get(i).getCost());
+                }
 
             }else{
                 results.count=mStringFilterList.size();
                 results.values=mStringFilterList;
             }
+
             return results;
         }
 
@@ -590,9 +591,9 @@ class RecipesAdapter extends BaseAdapter implements Filterable
         imageLoader.displayImage("drawable://" + context.getResources().getIdentifier(recipes.get(position).getImage(), "drawable", context.getPackageName()), holder.recipeImageView, displayImageOptions);
         holder.recipeTextView.setText(recipes.get(position).getName()/* + " id: " + String.valueOf(recipes.get(position).getId()) + " "+recipes.get(position).getAimer()*/);
         //Log.d("Crash value", String.valueOf(recipes.get(position).getDifficulty()));
-        if(recipes.get(position).getDifficulty()!=0) holder.recipeDifficultyTextView.setText(String.valueOf(recipes.get(position).getDifficulty())+"/5");
-        if(recipes.get(position).getCost()!=0) holder.recipeCostTextView.setText(String.valueOf(recipes.get(position).getCost())+" Dh");
-        if(recipes.get(position).getTime()!=0) holder.recipeTimeTextView.setText(String.valueOf(recipes.get(position).getTime())+" min.");
+        /*if(recipes.get(position).getDifficulty()!=0) */holder.recipeDifficultyTextView.setText(recipes.get(position).getDifficulty()!=1000 ? String.valueOf(recipes.get(position).getDifficulty())+"/5" : "N/A");
+        /*if(recipes.get(position).getCost()!=0) */holder.recipeCostTextView.setText(recipes.get(position).getCost()!=1000 ? String.valueOf(recipes.get(position).getCost())+" Dh" : "N/A");
+        /*if(recipes.get(position).getTime()!=0) */holder.recipeTimeTextView.setText(recipes.get(position).getTime()!=1000 ? String.valueOf(recipes.get(position).getTime())+" min." : "N/A");
 
         //The data is passed to the next Activity through extras, thought it was better than passing the id
         //alone then retrieving the recipe from DB since we already have all the data in this activity.

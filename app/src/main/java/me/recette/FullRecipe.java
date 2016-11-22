@@ -22,9 +22,9 @@ public class FullRecipe {
         this.name = name;
         this.ingredients = ingredients;
         this.preparation = preparation;
-        this.time = time;
-        this.cost = cost;
-        this.difficulty = difficulty;
+        this.time = (time!=0 ? time : 1000);
+        this.cost = (cost!=0 ? cost : 1000);
+        this.difficulty = (difficulty!=0 ? difficulty : 1000);
         this.image = image;
         this.author = author;
         this.id = id;
@@ -35,9 +35,9 @@ public class FullRecipe {
         this.name = fullRecipe.getName();
         this.ingredients = fullRecipe.getIngredients();
         this.preparation = fullRecipe.getPreparation();
-        this.time = fullRecipe.getTime();
-        this.cost = fullRecipe.getCost();
-        this.difficulty = fullRecipe.getDifficulty();
+        this.time = (fullRecipe.getTime()!=0 ? fullRecipe.getTime() : 1000);
+        this.cost = (fullRecipe.getCost()!=0 ? fullRecipe.getCost() : 1000);
+        this.difficulty = (fullRecipe.getDifficulty()!=0 ? fullRecipe.getDifficulty() : 1000);
         this.image = fullRecipe.getImage();
         this.author = fullRecipe.getAuthor();
         this.id = fullRecipe.getId();

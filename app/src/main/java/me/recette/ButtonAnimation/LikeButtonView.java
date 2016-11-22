@@ -130,7 +130,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
             //Log.d("Cost Filter", String.valueOf(MainListActivity.costFilter));
         }
         if(layoutName.equals("view_difficulty_button")) {
-            drawable1 = getResources().getIdentifier("difficulty_icon_reversed", "drawable", context.getPackageName());
+            drawable1 = getResources().getIdentifier("level_icon_red", "drawable", context.getPackageName());
             drawable2 = getResources().getIdentifier("level_icon", "drawable", context.getPackageName());
             difficultyUpwardArrow.setImageResource(isChecked ? drawable4 : drawable3);
             difficultyDownwardArrow.setImageResource(isChecked ? drawable5 : drawable6);
