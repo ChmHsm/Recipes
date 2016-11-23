@@ -3,7 +3,8 @@ package me.recette;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.opengl.Matrix;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,7 +19,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 import at.markushi.ui.CircleButton;
 
@@ -30,6 +34,7 @@ public class NewRecipeActivity extends ActionBarActivity {
     CircleButton recipeImageCircularButton;
     public static int SELECT_IMAGE;
     private ImageView recipeImageView;
+    private String imageURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +44,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         setTitle(R.string.new_recipe_name);
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -56,7 +61,7 @@ public class NewRecipeActivity extends ActionBarActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);//
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"),SELECT_IMAGE);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
             }
         });
 
@@ -133,21 +138,52 @@ public class NewRecipeActivity extends ActionBarActivity {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         recipeImageView.setVisibility(View.VISIBLE);
-                        float ratio = (float)bitmap.getWidth()/bitmap.getHeight();
+                        float ratio = (float) bitmap.getWidth() / bitmap.getHeight();
                         Log.d("Height", String.valueOf(ratio));
                         recipeImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, (int) (500 * ratio), 500, false));
-                        Log.d("New bitmap reso", Bitmap.createScaledBitmap(bitmap, 512, (int) (512 * ratio), false).getHeight()+"x"+Bitmap.createScaledBitmap(bitmap, 512, (int) (512 * ratio), false).getWidth());
-                        //recipeImageView.setImageBitmap();
+                        imageURL = saveImage(Bitmap.createScaledBitmap(bitmap, (int) (500 * ratio), 500, false));
+                        //TODO If form is valid then add the new recipe to the DB
+                        //if(imageURL != null) ;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     //Toast.makeText(NewRecipeActivity.this, "Image selected", Toast.LENGTH_SHORT).show();
                 }
-            }
-            else if (resultCode == Activity.RESULT_CANCELED) {
-                //Toast.makeText(NewRecipeActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(NewRecipeActivity.this, R.string.couldnt_retrieve_image, Toast.LENGTH_SHORT).show();
                 //recipeImageView.setVisibility(View.GONE);
             }
         }
+    }
+
+    public String saveImage(Bitmap image) {
+        String storedImageName = null;
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/DCIM/RecipesApp");
+        if (myDir.mkdirs()) {
+            Random generator = new Random();
+            int n = 10000;
+            n = generator.nextInt(n);
+            storedImageName = n + ".jpg";
+            File file = new File(myDir, storedImageName);
+            if (file.exists()) file.delete();
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                //Toast.makeText(NewRecipeActivity.this, "Image Saved", Toast.LENGTH_SHORT).show();
+                out.flush();
+                out.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                storedImageName = null;
+            }
+
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri contentUri = Uri.fromFile(file);
+            mediaScanIntent.setData(contentUri);
+            getApplicationContext().sendBroadcast(mediaScanIntent);
+        }
+        return storedImageName;
     }
 }

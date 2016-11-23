@@ -19,6 +19,7 @@
 
     <string name="desc">Description</string>
     <string name="recipe_image">Image</string>
+    <string name="couldnt_retrieve_image">Couldn\'t retrieve image</string>
 
     <string-array name="difficulty_array">
         <item>1</item>

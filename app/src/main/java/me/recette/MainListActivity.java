@@ -149,7 +149,7 @@ public class MainListActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main_list, menu);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
 
-        // TODO Animate the SearchView to make it like the Play Music's search bar
+        // TODO Animate the SearchView to make it like Google's Play Music's search bar
         //Tried to animate the SearchView to make it like the Play Music's search bar, but the search plate was always null
         /*int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_bar", null, null);
         View searchPlate = findViewById(searchPlateId);
