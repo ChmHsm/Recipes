@@ -63,9 +63,12 @@ public class MainActivity extends ActionBarActivity {
         if(getIntent().getStringExtra("recipeName")!=null) recipeTextView.setText(getIntent().getStringExtra("recipeName"));
         if(getIntent().getStringExtra("recipeIngredients")!=null) recipeIngredientsTextView.setText(getIntent().getStringExtra("recipeIngredients"));
         if(getIntent().getStringExtra("recipePreparation")!=null) recipePreparationTextView.setText(getIntent().getStringExtra("recipePreparation"));
-        if(getIntent().getIntExtra("recipeCost", 0) != 0) recipeCostTextView.setText(String.valueOf(getIntent().getIntExtra("recipeCost", 0))+" Dh");
-        if(getIntent().getIntExtra("recipeTime", 0) != 0) recipeTimeTextView.setText(String.valueOf(getIntent().getIntExtra("recipeTime", 0))+" min.");
-        if(getIntent().getIntExtra("recipeDifficulty", 0) != 0) recipeDifficultyTextView.setText(String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+"/5");
+        //if(getIntent().getIntExtra("recipeCost", 0) != 0) recipeCostTextView.setText(String.valueOf(getIntent().getIntExtra("recipeCost", 0))+" Dh");
+        recipeCostTextView.setText(getIntent().getIntExtra("recipeCost", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeCost", 0))+" Dh" : "N/A");
+        //if(getIntent().getIntExtra("recipeTime", 0) != 0) recipeTimeTextView.setText(String.valueOf(getIntent().getIntExtra("recipeTime", 0))+" min.");
+        recipeTimeTextView.setText(getIntent().getIntExtra("recipeTime", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeTime", 0))+" Dh" : "N/A");
+        //if(getIntent().getIntExtra("recipeDifficulty", 0) != 0) recipeDifficultyTextView.setText(String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+"/5");
+        recipeDifficultyTextView.setText(getIntent().getIntExtra("recipeDifficulty", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+" Dh" : "N/A");
         //TODO getResources().getDrawable() is deprecated, needs to be fixed
         if(getIntent().getStringExtra("recipeImage") != null) recipeImageView.setBackground(getResources().getDrawable(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
         //Log.d("Resource name", String.valueOf(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
