@@ -240,7 +240,7 @@ public class MainListActivity extends ActionBarActivity {
         anim.start();
     }
 
-    public static void showSnackBarAfterFilter(){
+    public static void showToastAfterFilter(){
 
         if(likeFilter == '1' || difficultyFilter == '1' || timeFilter == '1' || costFilter == '1') {
             toastHintContent = activityContext.getResources().getString(R.string.toast_filter_hint);
@@ -259,7 +259,6 @@ public class MainListActivity extends ActionBarActivity {
             toastHintContent = toastHintContent.substring(0, toastHintContent.length()-1)+".";
             Toast.makeText(activityContext, toastHintContent, Toast.LENGTH_SHORT).show();
         }
-
     }
 
     // Retrieves a new DB instance and updates the recipes object containing ALL the recipes and updates the Views

@@ -209,7 +209,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
         }
 
         MainListActivity.performFiltering();
-        MainListActivity.showSnackBarAfterFilter();
+        MainListActivity.showToastAfterFilter();
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ public class OneRecipeActivity extends ActionBarActivity {
     private TextView recipeCostTextView;
     private TextView recipeIngredientsTextView;
     private TextView recipePreparationTextView;
-    private LinearLayout recipeImageView;
+    private ImageView recipeImageView;
     private LikeButtonView recipeLikeButtonView;
     private boolean originalLikeValue; // Stores the original "like" value for the recipe
     public static boolean likeValue; // Contains the last like value chosen by the user when exiting the Activity. That way, the db is only accessed in onBackPressed if the likeValue != originalValue
@@ -56,12 +57,12 @@ public class OneRecipeActivity extends ActionBarActivity {
         recipeCostTextView = (TextView) findViewById(R.id.recipeCostTextView);
         recipeIngredientsTextView = (TextView) findViewById(R.id.textIngredients);
         recipePreparationTextView = (TextView) findViewById(R.id.textPreparation);
-        recipeImageView = (LinearLayout) findViewById(R.id.recipeImageView);
+        recipeImageView = (ImageView) findViewById(R.id.recipeImageView);
         recipeLikeButtonView = (LikeButtonView) findViewById(R.id.recipeLikeButtonView);
         recipeLikeButtonView.setLayoutName("view_like_button");
         recipeLikeButtonView.init();
 
-        if(getIntent().getStringExtra("recipeName")!=null) recipeTextView.setText(getIntent().getStringExtra("recipeName"));
+        //if(getIntent().getStringExtra("recipeName")!=null) recipeTextView.setText(getIntent().getStringExtra("recipeName"));
         if(getIntent().getStringExtra("recipeIngredients")!=null) recipeIngredientsTextView.setText(getIntent().getStringExtra("recipeIngredients"));
         if(getIntent().getStringExtra("recipePreparation")!=null) recipePreparationTextView.setText(getIntent().getStringExtra("recipePreparation"));
         //if(getIntent().getIntExtra("recipeCost", 0) != 0) recipeCostTextView.setText(String.valueOf(getIntent().getIntExtra("recipeCost", 0))+" Dh");
@@ -71,7 +72,7 @@ public class OneRecipeActivity extends ActionBarActivity {
         //if(getIntent().getIntExtra("recipeDifficulty", 0) != 0) recipeDifficultyTextView.setText(String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+"/5");
         recipeDifficultyTextView.setText(getIntent().getIntExtra("recipeDifficulty", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+" Dh" : "N/A");
         //TODO getResources().getDrawable() is deprecated, needs to be fixed
-        if(getIntent().getStringExtra("recipeImage") != null) recipeImageView.setBackground(getResources().getDrawable(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
+        if(getIntent().getStringExtra("recipeImage") != null) recipeImageView.setImageDrawable(getResources().getDrawable(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
         //Log.d("Resource name", String.valueOf(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
         if(getIntent().getBooleanExtra("recipeAimer", false)) recipeLikeButtonView.setClicked(true);
         //Log.d("Liked boolean",String.valueOf(getIntent().getBooleanExtra("recipeAimer", false)));
