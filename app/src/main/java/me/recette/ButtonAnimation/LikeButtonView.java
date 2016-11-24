@@ -19,7 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import me.recette.MainActivity;
+import me.recette.OneRecipeActivity;
 import me.recette.MainListActivity;
 import me.recette.R;
 
@@ -98,7 +98,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        MainActivity.likeValue = !MainActivity.likeValue;
+        OneRecipeActivity.likeValue = !OneRecipeActivity.likeValue;
         isChecked = !isChecked;
 
         int drawable1 = 0;
@@ -209,6 +209,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
         }
 
         MainListActivity.performFiltering();
+        MainListActivity.showSnackBarAfterFilter();
     }
 
     @Override

@@ -33,6 +33,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.melnykov.fab.FloatingActionButton;
@@ -70,9 +71,8 @@ public class MainListActivity extends ActionBarActivity {
     public static char timeFilter;
     public static char costFilter;
     private static String textForFiltering;
-
-
-
+    private static String toastHintContent;
+    private static Context activityContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,34 +81,14 @@ public class MainListActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         setTitle(R.string.main_list_activity_title);
-        //No need for a back arrow in first activity, but keeping it commented
-        // for future eventual use
 
         gridView = (GridView) findViewById(R.id.gridView);
 
-
-
         recipes = retrieveDBInstance().getAllRecipes();
-
 
         recipesAdapter = new RecipesAdapter(this, recipes, this);
         gridView.setAdapter(recipesAdapter);
 
-
-
-        //Used for testing DBHelper methods (Database requests)
-        /*FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById("1");
-        tmpRecipe.setName("New Recipe 4");
-        retrieveDBInstance().insertRecipe(tmpRecipe);
-        retrieveDBInstance().deleteRecipe(25);
-        retrieveDBInstance().deleteRecipe(26);
-        retrieveDBInstance().deleteRecipe(27);
-        updateList();
-        FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById("1");
-        tmpRecipe.setAimer(true);
-        tmpRecipe.setName("Brochettes de kefta");
-        retrieveDBInstance().updateRecipe(tmpRecipe);
-        updateList();*/
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(gridView);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +120,8 @@ public class MainListActivity extends ActionBarActivity {
         timeFilter = '0';
         difficultyFilter = '0';
         textForFiltering = "";
+
+        activityContext = MainListActivity.this;
 
     }
 
@@ -256,6 +238,28 @@ public class MainListActivity extends ActionBarActivity {
         Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_right);
         gridView.setAnimation(anim);
         anim.start();
+    }
+
+    public static void showSnackBarAfterFilter(){
+
+        if(likeFilter == '1' || difficultyFilter == '1' || timeFilter == '1' || costFilter == '1') {
+            toastHintContent = activityContext.getResources().getString(R.string.toast_filter_hint);
+            if (likeFilter == '1') {
+                toastHintContent += " "+activityContext.getResources().getString(R.string.favorite_name)+",";
+            }
+            if (difficultyFilter == '1') {
+                toastHintContent += " "+activityContext.getResources().getString(R.string.difficulty_name)+",";
+            }
+            if (timeFilter == '1') {
+                toastHintContent += " "+activityContext.getResources().getString(R.string.time_name)+",";
+            }
+            if (costFilter == '1') {
+                toastHintContent += " "+activityContext.getResources().getString(R.string.cost_name)+",";
+            }
+            toastHintContent = toastHintContent.substring(0, toastHintContent.length()-1)+".";
+            Toast.makeText(activityContext, toastHintContent, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // Retrieves a new DB instance and updates the recipes object containing ALL the recipes and updates the Views
@@ -601,7 +605,7 @@ class RecipesAdapter extends BaseAdapter implements Filterable
             @Override
             public void onClick(View v) {
                 //Log.d("Item clicked", recipes.get(position).getName());
-                Intent intent = new Intent(context, MainActivity.class);
+                Intent intent = new Intent(context, OneRecipeActivity.class);
                 intent.putExtra("recipeId", recipes.get(position).getId());
                 intent.putExtra("recipeAimer", recipes.get(position).getAimer());
                 intent.putExtra("recipeName", recipes.get(position).getName());

@@ -19,7 +19,7 @@ import me.recette.ButtonAnimation.LikeButtonView;
 
 //Activity for recipe's details
 //TODO ActionBarActivity is deprecated, should be fixed.
-public class MainActivity extends ActionBarActivity {
+public class OneRecipeActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
     private TextView recipeTextView;
@@ -32,6 +32,7 @@ public class MainActivity extends ActionBarActivity {
     private LikeButtonView recipeLikeButtonView;
     private boolean originalLikeValue; // Stores the original "like" value for the recipe
     public static boolean likeValue; // Contains the last like value chosen by the user when exiting the Activity. That way, the db is only accessed in onBackPressed if the likeValue != originalValue
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

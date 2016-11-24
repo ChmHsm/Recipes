@@ -14,12 +14,15 @@
     <string name="recipe_ingredients_description">Ingrédients</string>
     <string name="recipe_preparation_description">Préparation</string>
     <string name="like">Aimer</string>
+    <string name="favorite_name">Favori</string>
     <string name="time_name">Temps</string>
     <string name="cost_name">Coût</string>
 
     <string name="desc">Description</string>
     <string name="recipe_image">Image</string>
     <string name="couldnt_retrieve_image">Image non récupérée</string>
+    <string name="not_implemented">Non implémenté</string>
+    <string name="toast_filter_hint">Liste triée par:</string>
 
     <string-array name="difficulty_array">
         <item>1</item>
