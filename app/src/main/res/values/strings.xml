@@ -25,10 +25,13 @@
     <string name="toast_filter_hint">List sorted by:</string>
 
     <string-array name="difficulty_array">
+        <item>Choose a difficulty level</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
     </string-array>
+
+    <string name="fields_mandatory_hint">All fields are mandatory</string>
 </resources>

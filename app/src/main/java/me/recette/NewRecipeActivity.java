@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,11 +31,19 @@ import at.markushi.ui.CircleButton;
 public class NewRecipeActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
-    private Spinner difficultySpinner;
     CircleButton recipeImageCircularButton;
     public static int SELECT_IMAGE;
     private ImageView recipeImageView;
-    private String imageURL;
+
+
+    private EditText recipeNameEditText;
+    private Spinner difficultySpinner;
+    private EditText costEditText;
+    private EditText preparationEditText;
+    private EditText ingredientsEditText;
+    private EditText instructionsEditText;
+    private String imageURL = null;
+    private CircleButton recipeConfirmationCircularButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +75,34 @@ public class NewRecipeActivity extends ActionBarActivity {
         });
 
         recipeImageView = (ImageView) findViewById(R.id.recipeImageView);
+
+        recipeNameEditText = (EditText) findViewById(R.id.recipeNameEditText);
+        difficultySpinner = (Spinner) findViewById(R.id.difficultySpinner);
+        costEditText = (EditText) findViewById(R.id.costEditText);
+        preparationEditText = (EditText) findViewById(R.id.preparationEditText);
+        ingredientsEditText = (EditText) findViewById(R.id.ingredientsEditText);
+        instructionsEditText = (EditText) findViewById(R.id.instructionsEditText);
+        recipeConfirmationCircularButton = (CircleButton) findViewById(R.id.recipeConfirmationCircularButton);
+
+        recipeConfirmationCircularButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("New recipe attempt", recipeNameEditText.getText().toString()+" "+ difficultySpinner.getSelectedItem().toString()+" "+
+                        costEditText.getText().toString()+" "+
+                        preparationEditText.getText().toString()+" "+
+                        ingredientsEditText.getText().toString()+" "+instructionsEditText.getText().toString()+" ImageURL"+imageURL);
+                if(!recipeNameEditText.getText().toString().equals("") && !String.valueOf(difficultySpinner.getSelectedItem()).equals(getResources().getStringArray(R.array.difficulty_array)[0]) &&
+                        !costEditText.getText().toString().equals("") && !preparationEditText.getText().toString().equals("") &&
+                        !ingredientsEditText.getText().toString().equals("") && !instructionsEditText.getText().toString().equals("") &&
+                        imageURL != null){
+                    Toast.makeText(NewRecipeActivity.this, "Done", Toast.LENGTH_LONG).show();
+
+                }
+                else{
+                    Toast.makeText(NewRecipeActivity.this, R.string.fields_mandatory_hint, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
@@ -142,8 +179,7 @@ public class NewRecipeActivity extends ActionBarActivity {
                         Log.d("Height", String.valueOf(ratio));
                         recipeImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, (int) (500 * ratio), 500, false));
                         imageURL = saveImage(Bitmap.createScaledBitmap(bitmap, (int) (500 * ratio), 500, false));
-                        //TODO If form is valid then add the new recipe to the DB
-                        //if(imageURL != null) ;
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -160,30 +196,30 @@ public class NewRecipeActivity extends ActionBarActivity {
         String storedImageName = null;
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/DCIM/RecipesApp");
-        if (myDir.mkdirs()) {
-            Random generator = new Random();
-            int n = 10000;
-            n = generator.nextInt(n);
-            storedImageName = n + ".jpg";
-            File file = new File(myDir, storedImageName);
-            if (file.exists()) file.delete();
-            try {
-                FileOutputStream out = new FileOutputStream(file);
-                image.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                //Toast.makeText(NewRecipeActivity.this, "Image Saved", Toast.LENGTH_SHORT).show();
-                out.flush();
-                out.close();
+        myDir.mkdirs();
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        storedImageName = n + ".jpg";
+        File file = new File(myDir, storedImageName);
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            //Toast.makeText(NewRecipeActivity.this, "Image Saved", Toast.LENGTH_SHORT).show();
+            out.flush();
+            out.close();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                storedImageName = null;
-            }
-
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri contentUri = Uri.fromFile(file);
-            mediaScanIntent.setData(contentUri);
-            getApplicationContext().sendBroadcast(mediaScanIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            storedImageName = null;
         }
+
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(file);
+        mediaScanIntent.setData(contentUri);
+        getApplicationContext().sendBroadcast(mediaScanIntent);
+
         return storedImageName;
     }
 }
