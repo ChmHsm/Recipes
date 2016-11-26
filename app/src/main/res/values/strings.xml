@@ -38,4 +38,9 @@
     <string name="recipe_added_failure">Recipe was not added!</string>
     <string name="edit_recipe">Edit recipe</string>
     <string name="delete_recipe">Delete recipe</string>
+    <string name="recipe_deleted_success">was successfully deleted</string>
+    <string name="delete_recipe_confirmation">Are you sure you want to delete this recipe?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 </resources>

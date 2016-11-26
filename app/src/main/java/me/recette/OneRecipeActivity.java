@@ -1,6 +1,8 @@
 package me.recette;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.PersistableBundle;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -48,7 +51,7 @@ public class OneRecipeActivity extends ActionBarActivity {
 
     private TextView editRecipeTextView;
     private TextView deleteRecipeTextView;
-    private static int NEW_RECIPE_INTENT = 1;
+    private static int EDIT_RECIPE_INTENT = 1;
 
 
     @Override
@@ -123,8 +126,6 @@ public class OneRecipeActivity extends ActionBarActivity {
         //Log.d("Liked boolean",String.valueOf(getIntent().getBooleanExtra("recipeAimer", false)));
 
         editRecipeTextView = (TextView) findViewById(R.id.editRecipeTextView);
-        deleteRecipeTextView = (TextView) findViewById(R.id.deleteRecipeTextView);
-
         editRecipeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +139,28 @@ public class OneRecipeActivity extends ActionBarActivity {
                 intent.putExtra("recipeDifficulty", getIntent().getIntExtra("recipeDifficulty", 0));
                 intent.putExtra("recipeCost", getIntent().getIntExtra("recipeCost", 0));
                 intent.putExtra("recipeImage", getIntent().getStringExtra("recipeImage"));
-                startActivityForResult(intent, NEW_RECIPE_INTENT);
+                startActivityForResult(intent, EDIT_RECIPE_INTENT);
+            }
+        });
+
+        deleteRecipeTextView = (TextView) findViewById(R.id.deleteRecipeTextView);
+        deleteRecipeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(OneRecipeActivity.this)
+                        .setMessage(R.string.delete_recipe_confirmation)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(retrieveDBInstance().deleteRecipe(getIntent().getIntExtra("recipeId", 0))){
+                                    Toast.makeText(OneRecipeActivity.this, getIntent().getStringExtra("recipeName")+" "+getResources().getString(R.string.recipe_deleted_success), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        })
+                        .setNegativeButton(R.string.no, null)
+                        .show();
             }
         });
 

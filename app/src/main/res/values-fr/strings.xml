@@ -38,4 +38,8 @@
     <string name="recipe_added_failure">Recette non ajoutée !</string>
     <string name="edit_recipe">Modifier recette</string>
     <string name="delete_recipe">Supprimer recette</string>
+    <string name="recipe_deleted_success">a été supprimée</string>
+    <string name="delete_recipe_confirmation">Etes-vous sur de vouloir supprimer cette recette?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>
