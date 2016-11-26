@@ -1,8 +1,8 @@
 
 <b>Layouts:</b><br>
-![alt tag](https://cloud.githubusercontent.com/assets/12183061/20365579/4301ffd8-ac3f-11e6-9fc4-c67d785e167b.png)
-![alt tag](https://cloud.githubusercontent.com/assets/12183061/20321220/9b394b76-ab6c-11e6-81a8-b227624d329a.png)
-![alt tag](https://cloud.githubusercontent.com/assets/12183061/20366376/b739d058-ac42-11e6-80b3-57ead65a3a2f.png)
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20642806/320ba5ec-b411-11e6-9048-76b91b2acb58.png)
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20642810/364dbc12-b411-11e6-9716-4fa6dc15a255.png)
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20642809/348a2f28-b411-11e6-904b-b05738a8c0a6.png)
 
 
 
