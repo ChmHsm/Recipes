@@ -73,6 +73,8 @@ public class MainListActivity extends ActionBarActivity {
     private static String textForFiltering;
     private static String toastHintContent;
     private static Context activityContext;
+    private static int ADD_RECIPE_ACTIVITY = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class MainListActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainListActivity.this, NewRecipeActivity.class);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent, ADD_RECIPE_ACTIVITY);
                 overridePendingTransition(R.anim.bottom_up, R.anim.hold);
             }
         });
@@ -214,6 +216,15 @@ public class MainListActivity extends ActionBarActivity {
                 //So far, there's always an OK Result from Activity
             }
         }
+
+        else if(requestCode == ADD_RECIPE_ACTIVITY){
+            if(resultCode == Activity.RESULT_OK){
+                if(data.getBooleanExtra("result", false)){
+                    updateList();
+                    performFiltering();
+                }
+            }
+        }
     }
 
 
@@ -311,6 +322,8 @@ class RecipesAdapter extends BaseAdapter implements Filterable
     private ArrayList<FullRecipe> mStringFilterList;
     private ValueFilter valueFilter;
     private Activity activity;
+
+    private static int RECIPE_DETAIL_ACTIVITY = 1;
 
     public RecipesAdapter(Context context, ArrayList<FullRecipe> recipes, Activity activity){
 
@@ -591,7 +604,13 @@ class RecipesAdapter extends BaseAdapter implements Filterable
         else{
             holder = (ViewHolder) convertView.getTag();
         }
-        imageLoader.displayImage("drawable://" + context.getResources().getIdentifier(recipes.get(position).getImage(), "drawable", context.getPackageName()), holder.recipeImageView, displayImageOptions);
+        if(!recipes.get(position).getImage().contains("local")) {
+            imageLoader.displayImage("drawable://" + context.getResources().getIdentifier(recipes.get(position).getImage(), "drawable", context.getPackageName()), holder.recipeImageView, displayImageOptions);
+        }
+        else if(recipes.get(position).getImage().contains("local")){
+            int index = recipes.get(position).getImage().lastIndexOf(':');
+            imageLoader.displayImage("file:///"+recipes.get(position).getImage().substring(index+1,recipes.get(position).getImage().length()-1), holder.recipeImageView, displayImageOptions);
+        }
         holder.recipeTextView.setText(recipes.get(position).getName()/* + " id: " + String.valueOf(recipes.get(position).getId()) + " "+recipes.get(position).getAimer()*/);
         //Log.d("Crash value", String.valueOf(recipes.get(position).getDifficulty()));
         /*if(recipes.get(position).getDifficulty()!=0) */holder.recipeDifficultyTextView.setText(recipes.get(position).getDifficulty()!=1000 ? String.valueOf(recipes.get(position).getDifficulty())+"/5" : "N/A");
@@ -614,7 +633,7 @@ class RecipesAdapter extends BaseAdapter implements Filterable
                 intent.putExtra("recipeDifficulty", recipes.get(position).getDifficulty());
                 intent.putExtra("recipeCost", recipes.get(position).getCost());
                 intent.putExtra("recipeImage", recipes.get(position).getImage());
-                activity.startActivityForResult(intent, 1);
+                activity.startActivityForResult(intent, RECIPE_DETAIL_ACTIVITY);
                 //Slide animation
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
             }

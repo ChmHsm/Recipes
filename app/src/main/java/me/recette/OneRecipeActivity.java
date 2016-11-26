@@ -2,6 +2,7 @@ package me.recette;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +13,12 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,6 +40,9 @@ public class OneRecipeActivity extends ActionBarActivity {
     private LikeButtonView recipeLikeButtonView;
     private boolean originalLikeValue; // Stores the original "like" value for the recipe
     public static boolean likeValue; // Contains the last like value chosen by the user when exiting the Activity. That way, the db is only accessed in onBackPressed if the likeValue != originalValue
+
+    private ImageLoader imageLoader;
+    private DisplayImageOptions displayImageOptions;
 
 
     @Override
@@ -68,11 +78,40 @@ public class OneRecipeActivity extends ActionBarActivity {
         //if(getIntent().getIntExtra("recipeCost", 0) != 0) recipeCostTextView.setText(String.valueOf(getIntent().getIntExtra("recipeCost", 0))+" Dh");
         recipeCostTextView.setText(getIntent().getIntExtra("recipeCost", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeCost", 0))+" Dh" : "N/A");
         //if(getIntent().getIntExtra("recipeTime", 0) != 0) recipeTimeTextView.setText(String.valueOf(getIntent().getIntExtra("recipeTime", 0))+" min.");
-        recipeTimeTextView.setText(getIntent().getIntExtra("recipeTime", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeTime", 0))+" Dh" : "N/A");
+        recipeTimeTextView.setText(getIntent().getIntExtra("recipeTime", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeTime", 0))+" min" : "N/A");
         //if(getIntent().getIntExtra("recipeDifficulty", 0) != 0) recipeDifficultyTextView.setText(String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+"/5");
-        recipeDifficultyTextView.setText(getIntent().getIntExtra("recipeDifficulty", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+" Dh" : "N/A");
-        //TODO getResources().getDrawable() is deprecated, needs to be fixed
-        if(getIntent().getStringExtra("recipeImage") != null) recipeImageView.setImageDrawable(getResources().getDrawable(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
+        recipeDifficultyTextView.setText(getIntent().getIntExtra("recipeDifficulty", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+" /5" : "N/A");
+
+        ImageLoaderConfiguration imageLoaderConfiguration
+                = new ImageLoaderConfiguration.Builder(OneRecipeActivity.this)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .build();
+
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(imageLoaderConfiguration);
+
+        displayImageOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.on_loading)
+                .showImageForEmptyUri(R.drawable.on_fail)
+                .showImageOnFail(R.drawable.on_fail)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        if(getIntent().getStringExtra("recipeImage") != null) {
+
+            if(!getIntent().getStringExtra("recipeImage").contains("local")) {
+                recipeImageView.setImageDrawable(getResources().getDrawable(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
+            }
+            else if(getIntent().getStringExtra("recipeImage").contains("local")){
+                int index = getIntent().getStringExtra("recipeImage").lastIndexOf(':');
+                imageLoader.displayImage("file:///"+getIntent().getStringExtra("recipeImage").substring(index+1,getIntent().getStringExtra("recipeImage").length()-1), recipeImageView, displayImageOptions);
+            }
+        }
         //Log.d("Resource name", String.valueOf(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
         if(getIntent().getBooleanExtra("recipeAimer", false)) recipeLikeButtonView.setClicked(true);
         //Log.d("Liked boolean",String.valueOf(getIntent().getBooleanExtra("recipeAimer", false)));

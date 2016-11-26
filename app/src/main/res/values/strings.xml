@@ -34,4 +34,6 @@
     </string-array>
 
     <string name="fields_mandatory_hint">All fields are mandatory</string>
+    <string name="recipe_added_success">Recipe was successfully added</string>
+    <string name="recipe_added_failure">Recipe was not added!</string>
 </resources>

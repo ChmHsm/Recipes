@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Random;
 
 import at.markushi.ui.CircleButton;
@@ -44,6 +45,7 @@ public class NewRecipeActivity extends ActionBarActivity {
     private EditText instructionsEditText;
     private String imageURL = null;
     private CircleButton recipeConfirmationCircularButton;
+    private boolean recipeAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +97,14 @@ public class NewRecipeActivity extends ActionBarActivity {
                         !costEditText.getText().toString().equals("") && !preparationEditText.getText().toString().equals("") &&
                         !ingredientsEditText.getText().toString().equals("") && !instructionsEditText.getText().toString().equals("") &&
                         imageURL != null){
-                    Toast.makeText(NewRecipeActivity.this, "Done", Toast.LENGTH_LONG).show();
 
+
+                    recipeAdded = retrieveDBInstance().insertRecipe(new FullRecipe(0, recipeNameEditText.getText().toString(), ingredientsEditText.getText().toString(),
+                            instructionsEditText.getText().toString(), Integer.parseInt(preparationEditText.getText().toString()),
+                            Integer.parseInt(costEditText.getText().toString()), Integer.parseInt(difficultySpinner.getSelectedItem().toString()),
+                            "{local:"+Environment.getExternalStorageDirectory().toString() + "/DCIM/RecipesApp/"+imageURL+"}", null, false));
+                    if(recipeAdded) Toast.makeText(NewRecipeActivity.this, R.string.recipe_added_success, Toast.LENGTH_LONG).show();
+                    else Toast.makeText(NewRecipeActivity.this, R.string.recipe_added_failure, Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(NewRecipeActivity.this, R.string.fields_mandatory_hint, Toast.LENGTH_LONG).show();
@@ -152,14 +160,14 @@ public class NewRecipeActivity extends ActionBarActivity {
     public void onBackPressed() {
         // For good practice, this will be called either automatically on 2.0 or later, or from onOptionsItemSelected the code above on earlier versions.
         Intent returnIntent = new Intent();
-        /*if( if user added actually a recipe ) {
+        if(recipeAdded) {
 
             returnIntent.putExtra("result", true);
         }
 
         else{
             returnIntent.putExtra("result", false);
-        }*/
+        }
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
         overridePendingTransition(R.anim.hold, R.anim.bottom_down);
@@ -219,7 +227,29 @@ public class NewRecipeActivity extends ActionBarActivity {
         Uri contentUri = Uri.fromFile(file);
         mediaScanIntent.setData(contentUri);
         getApplicationContext().sendBroadcast(mediaScanIntent);
-
         return storedImageName;
+    }
+
+    //Retrieves DB instance
+    public DataBaseHelper retrieveDBInstance(){
+
+        DataBaseHelper myDbHelper = new DataBaseHelper(this);
+
+        try {
+            myDbHelper.createDataBase();
+        } catch (IOException ioe) {
+            throw new Error("Unable to create test");
+        }
+
+        try {
+            myDbHelper.openDataBase();
+        }catch(SQLException sqle){
+            try {
+                throw sqle;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return myDbHelper;
     }
 }
