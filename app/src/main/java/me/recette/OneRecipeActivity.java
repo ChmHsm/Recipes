@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,6 +45,10 @@ public class OneRecipeActivity extends ActionBarActivity {
 
     private ImageLoader imageLoader;
     private DisplayImageOptions displayImageOptions;
+
+    private TextView editRecipeTextView;
+    private TextView deleteRecipeTextView;
+    private static int NEW_RECIPE_INTENT = 1;
 
 
     @Override
@@ -115,6 +121,26 @@ public class OneRecipeActivity extends ActionBarActivity {
         //Log.d("Resource name", String.valueOf(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
         if(getIntent().getBooleanExtra("recipeAimer", false)) recipeLikeButtonView.setClicked(true);
         //Log.d("Liked boolean",String.valueOf(getIntent().getBooleanExtra("recipeAimer", false)));
+
+        editRecipeTextView = (TextView) findViewById(R.id.editRecipeTextView);
+        deleteRecipeTextView = (TextView) findViewById(R.id.deleteRecipeTextView);
+
+        editRecipeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OneRecipeActivity.this, NewRecipeActivity.class);
+                intent.putExtra("editRecipe", true);
+                intent.putExtra("recipeId", getIntent().getIntExtra("recipeId", 0));
+                intent.putExtra("recipeName", getIntent().getStringExtra("recipeName"));
+                intent.putExtra("recipeIngredients", getIntent().getStringExtra("recipeIngredients"));
+                intent.putExtra("recipePreparation", getIntent().getStringExtra("recipePreparation"));
+                intent.putExtra("recipeTime", getIntent().getIntExtra("recipeTime", 0));
+                intent.putExtra("recipeDifficulty", getIntent().getIntExtra("recipeDifficulty", 0));
+                intent.putExtra("recipeCost", getIntent().getIntExtra("recipeCost", 0));
+                intent.putExtra("recipeImage", getIntent().getStringExtra("recipeImage"));
+                startActivityForResult(intent, NEW_RECIPE_INTENT);
+            }
+        });
 
     }
 

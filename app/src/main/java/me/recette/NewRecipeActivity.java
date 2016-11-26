@@ -3,6 +3,8 @@ package me.recette;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -19,6 +21,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,6 +54,8 @@ public class NewRecipeActivity extends ActionBarActivity {
     private String imageURL = null;
     private CircleButton recipeConfirmationCircularButton;
     private boolean recipeAdded;
+    private ImageLoader imageLoader;
+    private DisplayImageOptions displayImageOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,27 +96,103 @@ public class NewRecipeActivity extends ActionBarActivity {
         instructionsEditText = (EditText) findViewById(R.id.instructionsEditText);
         recipeConfirmationCircularButton = (CircleButton) findViewById(R.id.recipeConfirmationCircularButton);
 
+        if(getIntent().getBooleanExtra("editRecipe", false)){
+            recipeNameEditText.setText(getIntent().getStringExtra("recipeName"));
+            //Log.d("Recipe difficulty", String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0)));
+            if(getIntent().getIntExtra("recipeDifficulty", 0) != 0 && getIntent().getIntExtra("recipeDifficulty", 0) != 1000) {
+                ArrayAdapter myAdapter = (ArrayAdapter) difficultySpinner.getAdapter();
+                int spinnerPosition;
+                spinnerPosition = myAdapter.getPosition(String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0)));
+                difficultySpinner.setSelection(spinnerPosition);
+            }
+            costEditText.setText(getIntent().getIntExtra("recipeCost", 0) != 1000 ? String.valueOf(getIntent().getIntExtra("recipeCost", 0)) : "");
+            //Log.d("Recipe cost", String.valueOf(getIntent().getIntExtra("recipeCost", 0)));
+            preparationEditText.setText(getIntent().getIntExtra("recipeTime", 0) != 1000 ? String.valueOf(getIntent().getIntExtra("recipeTime", 0)) : "");
+            ingredientsEditText.setText(getIntent().getStringExtra("recipeIngredients"));
+            instructionsEditText.setText(getIntent().getStringExtra("recipePreparation"));
+
+            ImageLoaderConfiguration imageLoaderConfiguration
+                    = new ImageLoaderConfiguration.Builder(NewRecipeActivity.this)
+                    .threadPriority(Thread.NORM_PRIORITY - 2)
+                    .denyCacheImageMultipleSizesInMemory()
+                    .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                    .tasksProcessingOrder(QueueProcessingType.LIFO)
+                    .build();
+
+            imageLoader = ImageLoader.getInstance();
+            imageLoader.init(imageLoaderConfiguration);
+
+            displayImageOptions = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.on_loading)
+                    .showImageForEmptyUri(R.drawable.on_fail)
+                    .showImageOnFail(R.drawable.on_fail)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .build();
+
+            //Log.d("Recipe Image", getIntent().getStringExtra("recipeImage"));
+            if(getIntent().getStringExtra("recipeImage") != null && getIntent().getStringExtra("recipeImage").length() > 0){
+
+                recipeImageView.setVisibility(View.VISIBLE);
+
+                if(!getIntent().getStringExtra("recipeImage").contains("local")){
+
+                    recipeImageView.setImageDrawable(getResources().getDrawable(getResources().getIdentifier(getIntent().getStringExtra("recipeImage"), "drawable", getPackageName())));
+                }
+                else if(getIntent().getStringExtra("recipeImage").contains("local")){
+                    int index = getIntent().getStringExtra("recipeImage").lastIndexOf(':');
+                    imageLoader.displayImage("file:///"+getIntent().getStringExtra("recipeImage").substring(index+1,getIntent().getStringExtra("recipeImage").length()-1), recipeImageView, displayImageOptions);
+                }
+                if(recipeImageView.getDrawable() != null){
+                    imageURL = saveImage(((BitmapDrawable) recipeImageView.getDrawable()).getBitmap());
+                }
+            }
+        }
+
         recipeConfirmationCircularButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Log.d("New recipe attempt", recipeNameEditText.getText().toString()+" "+ difficultySpinner.getSelectedItem().toString()+" "+
                         costEditText.getText().toString()+" "+
                         preparationEditText.getText().toString()+" "+
                         ingredientsEditText.getText().toString()+" "+instructionsEditText.getText().toString()+" ImageURL"+imageURL);
-                if(!recipeNameEditText.getText().toString().equals("") && !String.valueOf(difficultySpinner.getSelectedItem()).equals(getResources().getStringArray(R.array.difficulty_array)[0]) &&
+
+
+                if (!recipeNameEditText.getText().toString().equals("") && !String.valueOf(difficultySpinner.getSelectedItem()).equals(getResources().getStringArray(R.array.difficulty_array)[0]) &&
                         !costEditText.getText().toString().equals("") && !preparationEditText.getText().toString().equals("") &&
                         !ingredientsEditText.getText().toString().equals("") && !instructionsEditText.getText().toString().equals("") &&
-                        imageURL != null){
+                        imageURL != null) {
 
+                    if(!getIntent().getBooleanExtra("editRecipe", false)) {
+                        recipeAdded = retrieveDBInstance().insertRecipe(new FullRecipe(0, recipeNameEditText.getText().toString(), ingredientsEditText.getText().toString(),
+                                instructionsEditText.getText().toString(), Integer.parseInt(preparationEditText.getText().toString()),
+                                Integer.parseInt(costEditText.getText().toString()), Integer.parseInt(difficultySpinner.getSelectedItem().toString()),
+                                "{local:" + Environment.getExternalStorageDirectory().toString() + "/DCIM/RecipesApp/" + imageURL + "}", null, false));
+                        if (recipeAdded){
+                            Toast.makeText(NewRecipeActivity.this, R.string.recipe_added_success, Toast.LENGTH_LONG).show();
+                            onBackPressed();
+                        }
 
-                    recipeAdded = retrieveDBInstance().insertRecipe(new FullRecipe(0, recipeNameEditText.getText().toString(), ingredientsEditText.getText().toString(),
-                            instructionsEditText.getText().toString(), Integer.parseInt(preparationEditText.getText().toString()),
-                            Integer.parseInt(costEditText.getText().toString()), Integer.parseInt(difficultySpinner.getSelectedItem().toString()),
-                            "{local:"+Environment.getExternalStorageDirectory().toString() + "/DCIM/RecipesApp/"+imageURL+"}", null, false));
-                    if(recipeAdded) Toast.makeText(NewRecipeActivity.this, R.string.recipe_added_success, Toast.LENGTH_LONG).show();
-                    else Toast.makeText(NewRecipeActivity.this, R.string.recipe_added_failure, Toast.LENGTH_LONG).show();
-                }
-                else{
+                        else
+                            Toast.makeText(NewRecipeActivity.this, R.string.recipe_added_failure, Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        recipeAdded = retrieveDBInstance().updateRecipe(new FullRecipe(getIntent().getIntExtra("recipeId", 0), recipeNameEditText.getText().toString(), ingredientsEditText.getText().toString(),
+                                instructionsEditText.getText().toString(), Integer.parseInt(preparationEditText.getText().toString()),
+                                Integer.parseInt(costEditText.getText().toString()), Integer.parseInt(difficultySpinner.getSelectedItem().toString()),
+                                "{local:" + Environment.getExternalStorageDirectory().toString() + "/DCIM/RecipesApp/" + imageURL + "}", null, false));
+                        if (recipeAdded) {
+                            Toast.makeText(NewRecipeActivity.this, "Recipe was updated", Toast.LENGTH_LONG).show();
+                            onBackPressed();
+                        }
+                        else
+                            Toast.makeText(NewRecipeActivity.this, "Recipe was not updated", Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
                     Toast.makeText(NewRecipeActivity.this, R.string.fields_mandatory_hint, Toast.LENGTH_LONG).show();
                 }
             }
@@ -161,17 +247,15 @@ public class NewRecipeActivity extends ActionBarActivity {
         // For good practice, this will be called either automatically on 2.0 or later, or from onOptionsItemSelected the code above on earlier versions.
         Intent returnIntent = new Intent();
         if(recipeAdded) {
-
             returnIntent.putExtra("result", true);
         }
-
         else{
             returnIntent.putExtra("result", false);
+            //TODO Delete the saved images in external memory (hint: deletev image named imageURL from external memory)
         }
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
         overridePendingTransition(R.anim.hold, R.anim.bottom_down);
-
     }
 
     @Override
@@ -185,6 +269,7 @@ public class NewRecipeActivity extends ActionBarActivity {
                         recipeImageView.setVisibility(View.VISIBLE);
                         float ratio = (float) bitmap.getWidth() / bitmap.getHeight();
                         Log.d("Height", String.valueOf(ratio));
+                        //TODO Check whether the image actually needs more compression (hint: if height is already 500 then no compression is needed)
                         recipeImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, (int) (500 * ratio), 500, false));
                         imageURL = saveImage(Bitmap.createScaledBitmap(bitmap, (int) (500 * ratio), 500, false));
 
@@ -201,7 +286,7 @@ public class NewRecipeActivity extends ActionBarActivity {
     }
 
     public String saveImage(Bitmap image) {
-        String storedImageName = null;
+        String storedImageName;
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/DCIM/RecipesApp");
         myDir.mkdirs();
@@ -217,12 +302,10 @@ public class NewRecipeActivity extends ActionBarActivity {
             //Toast.makeText(NewRecipeActivity.this, "Image Saved", Toast.LENGTH_SHORT).show();
             out.flush();
             out.close();
-
         } catch (Exception e) {
             e.printStackTrace();
             storedImageName = null;
         }
-
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri contentUri = Uri.fromFile(file);
         mediaScanIntent.setData(contentUri);
@@ -234,7 +317,6 @@ public class NewRecipeActivity extends ActionBarActivity {
     public DataBaseHelper retrieveDBInstance(){
 
         DataBaseHelper myDbHelper = new DataBaseHelper(this);
-
         try {
             myDbHelper.createDataBase();
         } catch (IOException ioe) {

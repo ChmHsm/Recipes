@@ -192,6 +192,34 @@
                     android:textColor="@color/black"
                     android:id="@+id/textPreparation" />
             </LinearLayout>
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_recipe"
+                    android:id="@+id/editRecipeTextView"
+                    android:padding="8dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete_recipe"
+                    android:id="@+id/deleteRecipeTextView"
+                    android:padding="8dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"/>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
