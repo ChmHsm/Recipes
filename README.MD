@@ -32,4 +32,4 @@ The like button's twitter like animation is based on forgermcs's here: http://fr
 
 Please crticise everything you can about this app, I'll apreciate it very much.
 
-<b>P.S:</b> I'll be updating the app_debug.apk in app/ for apk download.
+<b>P.S:</b> I'll be updating the app_debug.apk in app/ regularly for apk download.
