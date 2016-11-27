@@ -25,8 +25,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import me.recette.ButtonAnimation.LikeButtonView;
 
@@ -52,6 +54,7 @@ public class OneRecipeActivity extends ActionBarActivity {
     private TextView editRecipeTextView;
     private TextView deleteRecipeTextView;
     private static int EDIT_RECIPE_INTENT = 1;
+    private boolean recipeDeleted = false;
 
 
     @Override
@@ -154,7 +157,9 @@ public class OneRecipeActivity extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(retrieveDBInstance().deleteRecipe(getIntent().getIntExtra("recipeId", 0))){
+                                    recipeDeleted = true;
                                     Toast.makeText(OneRecipeActivity.this, getIntent().getStringExtra("recipeName")+" "+getResources().getString(R.string.recipe_deleted_success), Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
                                 }
                             }
 
@@ -211,11 +216,13 @@ public class OneRecipeActivity extends ActionBarActivity {
     public void onBackPressed() {
         // For good practice, this will be called either automatically on 2.0 or later, or from onOptionsItemSelected the code above on earlier versions.
         Intent returnIntent = new Intent();
-        if(originalLikeValue != likeValue) {
-            FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById(String.valueOf(getIntent().getIntExtra("recipeId", 0)));
-            tmpRecipe.setAimer(likeValue);
-            retrieveDBInstance().updateRecipe(tmpRecipe);
-            Log.d("Back pressed", "recipe " + tmpRecipe.getName() + " like value changed to " + tmpRecipe.getAimer());
+        if(originalLikeValue != likeValue || recipeDeleted) {
+            if(originalLikeValue != likeValue) {
+                FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById(String.valueOf(getIntent().getIntExtra("recipeId", 0)));
+                tmpRecipe.setAimer(likeValue);
+                retrieveDBInstance().updateRecipe(tmpRecipe);
+                //Log.d("Back pressed", "recipe " + tmpRecipe.getName() + " like value changed to " + tmpRecipe.getAimer());
+            }
             returnIntent.putExtra("result", true);
         }
         else{

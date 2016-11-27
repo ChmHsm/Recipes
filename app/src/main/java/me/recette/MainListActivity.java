@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.os.Environment;
 import android.os.PersistableBundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -43,6 +44,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import java.io.File;
 import java.io.IOException;
 
 import java.sql.SQLException;
@@ -124,6 +126,8 @@ public class MainListActivity extends ActionBarActivity {
         textForFiltering = "";
 
         activityContext = MainListActivity.this;
+
+        cleanImageCache();
 
     }
 
@@ -282,7 +286,7 @@ public class MainListActivity extends ActionBarActivity {
     }
 
     public static void performFiltering(){
-        recipesAdapter.getFilter().filter(textForFiltering+likeFilter+costFilter+timeFilter+difficultyFilter);
+        recipesAdapter.getFilter().filter(textForFiltering + likeFilter + costFilter + timeFilter + difficultyFilter);
         recipesAdapter.notifyDataSetChanged();
     }
 
@@ -307,6 +311,34 @@ public class MainListActivity extends ActionBarActivity {
             }
         }
         return myDbHelper;
+    }
+
+    private void cleanImageCache(){
+        ArrayList<FullRecipe> recipes =  retrieveDBInstance().getAllRecipes();
+        ArrayList<String> usedImagesPaths = new ArrayList<>();
+
+        for(int i =0; i < recipes.size() ; i++){
+            if(recipes.get(i).getImage().contains("local")){
+                int index = recipes.get(i).getImage().lastIndexOf(':');
+                usedImagesPaths.add(recipes.get(i).getImage().substring(index + 1, recipes.get(i).getImage().length() - 1));
+            }
+        }
+
+        String path = Environment.getExternalStorageDirectory().toString()+"/DCIM/RecipesApp/";
+        Log.d("Files", "Path: " + path);
+        File directory = new File(path);
+        File[] files = directory.listFiles();
+        Log.d("Files", "Size: "+ files.length);
+
+        for (int i = 0; i < files.length; i++)
+        {
+            Log.d("Files", "FileName:" + files[i].getPath());
+        }
+        for(int i = 0 ; i < files.length ; i++){
+            if(!usedImagesPaths.contains(files[i].getAbsolutePath())){
+                files[i].delete();
+            }
+        }
     }
 
 }
