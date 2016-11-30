@@ -2,7 +2,7 @@
 <b>Layouts:</b><br>
 ![alt tag](https://cloud.githubusercontent.com/assets/12183061/20642806/320ba5ec-b411-11e6-9048-76b91b2acb58.png)
 ![alt tag](https://cloud.githubusercontent.com/assets/12183061/20642810/364dbc12-b411-11e6-9716-4fa6dc15a255.png)
-![alt tag](https://cloud.githubusercontent.com/assets/12183061/20642809/348a2f28-b411-11e6-904b-b05738a8c0a6.png)
+![alt tag](https://cloud.githubusercontent.com/assets/12183061/20775431/cf6a3e22-b752-11e6-8365-f540c1db053b.png)
 
 
 
