@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,6 +57,8 @@ public class NewRecipeActivity extends ActionBarActivity {
     private boolean recipeAdded;
     private ImageLoader imageLoader;
     private DisplayImageOptions displayImageOptions;
+
+    private LinearLayout recipeImageLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         ingredientsEditText = (EditText) findViewById(R.id.ingredientsEditText);
         instructionsEditText = (EditText) findViewById(R.id.instructionsEditText);
         recipeConfirmationCircularButton = (CircleButton) findViewById(R.id.recipeConfirmationCircularButton);
+        recipeImageLayout = (LinearLayout) findViewById(R.id.recipeImageLayout);
 
         if(getIntent().getBooleanExtra("editRecipe", false)){
             recipeNameEditText.setText(getIntent().getStringExtra("recipeName"));
@@ -135,7 +139,7 @@ public class NewRecipeActivity extends ActionBarActivity {
             //Log.d("Recipe Image", getIntent().getStringExtra("recipeImage"));
             if(getIntent().getStringExtra("recipeImage") != null && getIntent().getStringExtra("recipeImage").length() > 0){
 
-                recipeImageView.setVisibility(View.VISIBLE);
+                recipeImageLayout.setVisibility(View.VISIBLE);
 
                 if(!getIntent().getStringExtra("recipeImage").contains("local")){
 
@@ -266,7 +270,7 @@ public class NewRecipeActivity extends ActionBarActivity {
                 if (data != null) {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                        recipeImageView.setVisibility(View.VISIBLE);
+                        recipeImageLayout.setVisibility(View.VISIBLE);
                         float ratio = (float) bitmap.getWidth() / bitmap.getHeight();
                         Log.d("Height", String.valueOf(ratio));
                         //TODO Check whether the image actually needs more compression (hint: if height is already 500 then no compression is needed)

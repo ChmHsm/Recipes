@@ -88,6 +88,8 @@ public class MainListActivity extends ActionBarActivity {
 
         gridView = (GridView) findViewById(R.id.gridView);
 
+        cleanImageCache();
+
         recipes = retrieveDBInstance().getAllRecipes();
 
         recipesAdapter = new RecipesAdapter(this, recipes, this);
@@ -127,7 +129,7 @@ public class MainListActivity extends ActionBarActivity {
 
         activityContext = MainListActivity.this;
 
-        cleanImageCache();
+
 
     }
 
