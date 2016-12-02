@@ -23,14 +23,20 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/recipeImageView"
                 android:adjustViewBounds="true"
-                android:src="@drawable/brochettes_kefta"/>
+                android:layout_margin="8dp"
+                android:src="@drawable/brochettes_kefta"
+                android:background="@color/white"
+                android:elevation="4dp"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:layout_gravity="center_horizontal"
-                android:padding="10dp">
+                android:padding="7dp"
+                android:layout_margin="5dp"
+                android:elevation="3dp">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -52,16 +58,18 @@
 
                     </FrameLayout>
 
-
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/like"
                         android:id="@+id/textFavorite"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size"/>
+
                 </LinearLayout>
+
+
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -72,7 +80,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:src="@drawable/level_icon"
-                        android:id="@+id/imageLevel" />
+                        android:id="@+id/imageLevel"
+                        android:padding="3dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -80,7 +89,9 @@
                         android:layout_gravity="center"
                         android:text="@string/unavailable"
                         android:id="@+id/recipeDifficultyTextView"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size"/>
+
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
@@ -92,7 +103,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:src="@drawable/alarm_icon"
-                        android:id="@+id/imageAlam" />
+                        android:id="@+id/imageAlam"
+                        android:padding="3dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -100,7 +112,9 @@
                         android:layout_gravity="center"
                         android:text="@string/unavailable"
                         android:id="@+id/recipeTimeTextView"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size"/>
+
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
@@ -112,7 +126,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:src="@drawable/euro_icon"
-                        android:id="@+id/imageEuro" />
+                        android:id="@+id/imageEuro"
+                        android:padding="3dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,7 +135,9 @@
                         android:layout_gravity="center"
                         android:text="@string/unavailable"
                         android:id="@+id/recipeCostTextView"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size"/>
+
                 </LinearLayout>
             </LinearLayout>
 

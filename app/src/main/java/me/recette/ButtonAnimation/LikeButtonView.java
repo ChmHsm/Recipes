@@ -118,6 +118,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
 
             if(isChecked) MainListActivity.likeFilter = '1';
             else MainListActivity.likeFilter = '0';
+            MainListActivity.showToastAfterFilter();
 
         }
         if(layoutName.equals("view_cost_button")) {
@@ -127,6 +128,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
             costDownwardArrow.setImageResource(isChecked ? drawable5 : drawable6);
             if(isChecked) MainListActivity.costFilter = '1';
             else MainListActivity.costFilter = '0';
+            MainListActivity.showToastAfterFilter();
             //Log.d("Cost Filter", String.valueOf(MainListActivity.costFilter));
         }
         if(layoutName.equals("view_difficulty_button")) {
@@ -136,6 +138,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
             difficultyDownwardArrow.setImageResource(isChecked ? drawable5 : drawable6);
             if(isChecked) MainListActivity.difficultyFilter = '1';
             else MainListActivity.difficultyFilter = '0';
+            MainListActivity.showToastAfterFilter();
         }
         if(layoutName.equals("view_time_button")) {
             drawable1 = getResources().getIdentifier("alarm_icon_red", "drawable", context.getPackageName());
@@ -144,6 +147,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
             timeDownwardArrow.setImageResource(isChecked ? drawable5 : drawable6);
             if(isChecked) MainListActivity.timeFilter = '1';
             else MainListActivity.timeFilter = '0';
+            MainListActivity.showToastAfterFilter();
         }
 
         ivStar.setImageResource(isChecked ? drawable1 : drawable2);
@@ -209,7 +213,7 @@ public class LikeButtonView extends FrameLayout implements View.OnClickListener 
         }
 
         MainListActivity.performFiltering();
-        MainListActivity.showToastAfterFilter();
+
     }
 
     @Override

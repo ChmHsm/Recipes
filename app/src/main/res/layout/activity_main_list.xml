@@ -189,6 +189,7 @@
         android:verticalSpacing="10dp"
         android:columnWidth="120dp"
         android:paddingRight="5dp"
+        android:scrollbarStyle="outsideInset"
         android:paddingLeft="5dp"
         />
 
