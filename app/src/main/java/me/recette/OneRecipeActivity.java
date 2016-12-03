@@ -218,9 +218,10 @@ public class OneRecipeActivity extends ActionBarActivity {
         Intent returnIntent = new Intent();
         if(originalLikeValue != likeValue || recipeDeleted) {
             if(originalLikeValue != likeValue) {
-                FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById(String.valueOf(getIntent().getIntExtra("recipeId", 0)));
+                /*FullRecipe tmpRecipe = retrieveDBInstance().getRecipeById(String.valueOf(getIntent().getIntExtra("recipeId", 0)));
                 tmpRecipe.setAimer(likeValue);
-                retrieveDBInstance().updateRecipe(tmpRecipe);
+                retrieveDBInstance().updateRecipe(tmpRecipe);*/
+                retrieveDBInstance().setRecipeLiked(String.valueOf(getIntent().getIntExtra("recipeId", 0)), likeValue);
                 //Log.d("Back pressed", "recipe " + tmpRecipe.getName() + " like value changed to " + tmpRecipe.getAimer());
             }
             returnIntent.putExtra("result", true);

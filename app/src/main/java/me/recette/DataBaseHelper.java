@@ -248,6 +248,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return fullRecipe;
     }
 
+    public boolean setRecipeLiked(String id, boolean liked){
+
+
+        if(id == null || Integer.parseInt(id) <= 0) return false;
+        else{
+            if(getRecipeById(id) == null) return false;
+            else{
+                SQLiteDatabase db = this.getWritableDatabase();
+                SQLiteStatement stmt = db.compileStatement("UPDATE recipes set AIMER = ? where _id = ?");
+                stmt.bindString(1, String.valueOf(liked ? 1 : 0));
+                stmt.bindString(2, id);
+                stmt.execute();
+                db.close();
+                return true;
+            }
+        }
+    }
+
     @Override
     public synchronized void close() {
 

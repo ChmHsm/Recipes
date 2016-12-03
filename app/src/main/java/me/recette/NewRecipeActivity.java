@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -59,6 +60,7 @@ public class NewRecipeActivity extends ActionBarActivity {
     private DisplayImageOptions displayImageOptions;
 
     private LinearLayout recipeImageLayout;
+    private ImageView recipeCancelImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,8 @@ public class NewRecipeActivity extends ActionBarActivity {
         setContentView(R.layout.new_recipe_activity_layout);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        setTitle(R.string.new_recipe_name);
+        setTitle(getIntent().getBooleanExtra("editRecipe", false) ? getIntent().getStringExtra("recipeName") : getResources().getString(R.string.new_recipe_name));
+        //setTitle(R.string.new_recipe_name);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -99,6 +102,15 @@ public class NewRecipeActivity extends ActionBarActivity {
         instructionsEditText = (EditText) findViewById(R.id.instructionsEditText);
         recipeConfirmationCircularButton = (CircleButton) findViewById(R.id.recipeConfirmationCircularButton);
         recipeImageLayout = (LinearLayout) findViewById(R.id.recipeImageLayout);
+        recipeCancelImageView = (ImageView) findViewById(R.id.recipeCancelImageView);
+
+        recipeCancelImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recipeImageLayout.setVisibility(View.GONE);
+                imageURL = null;
+            }
+        });
 
         if(getIntent().getBooleanExtra("editRecipe", false)){
             recipeNameEditText.setText(getIntent().getStringExtra("recipeName"));

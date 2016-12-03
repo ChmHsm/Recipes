@@ -232,7 +232,7 @@
                     android:elevation="3dp"
                     android:layout_margin="7dp"
                     android:padding="3dp"
-                    android:visibility="gone"
+
                     android:layout_gravity="center"
                     android:id="@+id/recipeImageLayout">
 
