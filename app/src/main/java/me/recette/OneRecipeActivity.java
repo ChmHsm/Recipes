@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +70,13 @@ public class OneRecipeActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        /*if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
+            final LayoutInflater factory = getLayoutInflater();
+            final View textEntryView = factory.inflate(R.layout.appbar_shadow_view, null);
+            View shadow = textEntryView.findViewById(R.id.shadow);
+            shadow.setVisibility(View.VISIBLE);
+        }*/
 
         likeValue = getIntent().getBooleanExtra("recipeAimer", false);
         originalLikeValue = getIntent().getBooleanExtra("recipeAimer", false);

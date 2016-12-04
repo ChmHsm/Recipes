@@ -18,24 +18,27 @@
             android:layout_height="match_parent"
             android:background="@color/white">
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/recipeImageView"
-                android:adjustViewBounds="true"
-                android:layout_margin="8dp"
-                android:src="@drawable/brochettes_kefta"
-                android:background="@color/white"
-                android:elevation="4dp"/>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/recipeImageView"
+                    android:adjustViewBounds="true"
+                    android:background="@color/white"
+                    android:elevation="3dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/brochettes_kefta"/>
+
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_gravity="center_horizontal"
-                android:padding="7dp"
                 android:layout_margin="5dp"
+                android:padding="3dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/recipeAttributesLyout"
                 android:elevation="3dp">
 
                 <LinearLayout
@@ -139,7 +142,10 @@
                         android:textSize="@dimen/text_size"/>
 
                 </LinearLayout>
+
+
             </LinearLayout>
+
 
             <View
                 android:layout_width="wrap_content"

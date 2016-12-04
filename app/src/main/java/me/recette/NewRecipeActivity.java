@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +69,16 @@ public class NewRecipeActivity extends ActionBarActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.new_recipe_activity_layout);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
+
         setSupportActionBar(toolbar);
+
+        /*if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
+            final LayoutInflater factory = getLayoutInflater();
+            final View textEntryView = factory.inflate(R.layout.appbar_shadow_view, null);
+            View shadow = textEntryView.findViewById(R.id.shadow);
+            shadow.setVisibility(View.VISIBLE);
+        }*/
+
         setTitle(getIntent().getBooleanExtra("editRecipe", false) ? getIntent().getStringExtra("recipeName") : getResources().getString(R.string.new_recipe_name));
         //setTitle(R.string.new_recipe_name);
         if (getSupportActionBar() != null) {

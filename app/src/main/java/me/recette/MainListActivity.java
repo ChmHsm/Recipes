@@ -19,6 +19,7 @@ import android.os.Bundle;
 
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -85,6 +86,13 @@ public class MainListActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         setTitle(R.string.main_list_activity_title);
+
+        /*if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
+            final LayoutInflater factory = getLayoutInflater();
+            final View textEntryView = factory.inflate(R.layout.appbar_shadow_view, null);
+            View shadow = textEntryView.findViewById(R.id.shadow);
+            shadow.setVisibility(View.VISIBLE);
+        }*/
 
         gridView = (GridView) findViewById(R.id.gridView);
 
@@ -315,30 +323,31 @@ public class MainListActivity extends ActionBarActivity {
         return myDbHelper;
     }
 
-    private void cleanImageCache(){
-        ArrayList<FullRecipe> recipes =  retrieveDBInstance().getAllRecipes();
+    private void cleanImageCache() {
+        ArrayList<FullRecipe> recipes = retrieveDBInstance().getAllRecipes();
         ArrayList<String> usedImagesPaths = new ArrayList<>();
 
-        for(int i =0; i < recipes.size() ; i++){
-            if(recipes.get(i).getImage().contains("local")){
+        for (int i = 0; i < recipes.size(); i++) {
+            if (recipes.get(i).getImage().contains("local")) {
                 int index = recipes.get(i).getImage().lastIndexOf(':');
                 usedImagesPaths.add(recipes.get(i).getImage().substring(index + 1, recipes.get(i).getImage().length() - 1));
             }
         }
 
-        String path = Environment.getExternalStorageDirectory().toString()+"/DCIM/RecipesApp/";
+        String path = Environment.getExternalStorageDirectory().toString() + "/DCIM/RecipesApp/";
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
-        File[] files = directory.listFiles();
-        Log.d("Files", "Size: "+ files.length);
+        if (directory.listFiles() != null) {
+            File[] files = directory.listFiles();
+            Log.d("Files", "Size: " + files.length);
 
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.d("Files", "FileName:" + files[i].getPath());
-        }
-        for(int i = 0 ; i < files.length ; i++){
-            if(!usedImagesPaths.contains(files[i].getAbsolutePath())){
-                files[i].delete();
+            for (int i = 0; i < files.length; i++) {
+                Log.d("Files", "FileName:" + files[i].getPath());
+            }
+            for (int i = 0; i < files.length; i++) {
+                if (!usedImagesPaths.contains(files[i].getAbsolutePath())) {
+                    files[i].delete();
+                }
             }
         }
     }
