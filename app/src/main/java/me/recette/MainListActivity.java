@@ -137,7 +137,7 @@ public class MainListActivity extends ActionBarActivity {
 
         activityContext = MainListActivity.this;
 
-
+        //TODO make elevation effect for items for lollipop end prelollipop version
 
     }
 

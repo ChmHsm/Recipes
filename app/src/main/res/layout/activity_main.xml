@@ -26,8 +26,7 @@
                     android:adjustViewBounds="true"
                     android:background="@color/white"
                     android:elevation="3dp"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/brochettes_kefta"/>
+                    android:layout_margin="5dp"/>
 
 
             <LinearLayout

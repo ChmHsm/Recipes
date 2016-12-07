@@ -114,6 +114,8 @@ public class NewRecipeActivity extends ActionBarActivity {
         recipeImageLayout = (LinearLayout) findViewById(R.id.recipeImageLayout);
         recipeCancelImageView = (ImageView) findViewById(R.id.recipeCancelImageView);
 
+        //TODO make elevation effect for items for lollipop end prelollipop version
+
         recipeCancelImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

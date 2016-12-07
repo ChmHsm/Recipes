@@ -102,6 +102,8 @@ public class OneRecipeActivity extends ActionBarActivity {
         //if(getIntent().getIntExtra("recipeDifficulty", 0) != 0) recipeDifficultyTextView.setText(String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+"/5");
         recipeDifficultyTextView.setText(getIntent().getIntExtra("recipeDifficulty", 0)!=1000 ? String.valueOf(getIntent().getIntExtra("recipeDifficulty", 0))+" /5" : "N/A");
 
+        //TODO make elevation effect for items for lollipop end prelollipop version
+
         ImageLoaderConfiguration imageLoaderConfiguration
                 = new ImageLoaderConfiguration.Builder(OneRecipeActivity.this)
                 .threadPriority(Thread.NORM_PRIORITY - 2)
