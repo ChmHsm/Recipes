@@ -9,6 +9,7 @@ import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -71,12 +72,17 @@ public class OneRecipeActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        /*if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
-            final LayoutInflater factory = getLayoutInflater();
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
+            findViewById(R.id.appBarShadow).setVisibility(View.VISIBLE);
+
+            /*final LayoutInflater factory = getLayoutInflater();
             final View textEntryView = factory.inflate(R.layout.appbar_shadow_view, null);
             View shadow = textEntryView.findViewById(R.id.shadow);
-            shadow.setVisibility(View.VISIBLE);
-        }*/
+            shadow.setVisibility(View.VISIBLE);*/
+        }
+        else {
+            findViewById(R.id.appBarShadow).setVisibility(View.INVISIBLE);
+        }
 
         likeValue = getIntent().getBooleanExtra("recipeAimer", false);
         originalLikeValue = getIntent().getBooleanExtra("recipeAimer", false);

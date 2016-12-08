@@ -1,0 +1,235 @@
+
+    <ScrollView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView2"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_name"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/recipeNameEditText"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/difficulty_name"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/difficultySpinner"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_cost_name"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/costEditText"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time_to_cook_name"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/preparationEditText"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_ingredients_description"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:id="@+id/ingredientsEditText"
+                    android:ems="10"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_preparation_description"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:id="@+id/instructionsEditText"
+                    android:ems="10"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="2dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_image"
+                    android:textColor="@color/black"
+                    android:visibility="gone"/>
+
+                <at.markushi.ui.CircleButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="76dip"
+                    android:src="@drawable/image_icon"
+                    app:cb_color="@color/primary_color"
+                    app:cb_pressedRingWidth="8dip"
+                    android:id="@+id/recipeImageCircularButton"
+                    android:layout_weight="1"/>
+
+                <at.markushi.ui.CircleButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="76dip"
+                    android:src="@drawable/camera_icon"
+                    app:cb_color="@color/primary_color"
+                    app:cb_pressedRingWidth="8dip"
+                    android:id="@+id/recipeTakePhotoCircularButton"
+                    android:layout_weight="1"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:elevation="5dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:id="@+id/recipeImageLayout">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recipeImageView"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/brochettes_kefta"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recipeCancelImageView"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="top"
+                        android:src="@drawable/cancel_icon"
+                        android:adjustViewBounds="true"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+
+                <at.markushi.ui.CircleButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="76dip"
+                    android:src="@drawable/done_icon"
+                    app:cb_color="@color/blue"
+                    app:cb_pressedRingWidth="8dip"
+                    android:id="@+id/recipeConfirmationCircularButton"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>

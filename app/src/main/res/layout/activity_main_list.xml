@@ -11,208 +11,223 @@
 
     <include layout="@layout/app_bar"/>
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/horizontalScrollView"
-        android:fillViewport="true"
-        android:background="@color/white"
-        android:elevation="2dp"
-        >
-
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:layout_gravity="center"
-        android:layout_margin="4dp">
+        android:orientation="vertical">
 
-        <FrameLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:id="@+id/horizontalScrollView"
+            android:fillViewport="true"
+            android:background="@color/white"
+            android:elevation="2dp"
+            >
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            <me.recette.ButtonAnimation.LikeButtonView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/recipeLikeButtonView"
+                android:baselineAligned="false"
                 android:layout_gravity="center"
-                android:background="@color/white"
-                android:elevation="4dp"
-                android:layout_margin="5dp">
+                android:layout_margin="4dp">
 
-            </me.recette.ButtonAnimation.LikeButtonView>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <me.recette.ButtonAnimation.LikeButtonView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:id="@+id/recipeLikeButtonView"
+                            android:layout_gravity="center"
+                            android:background="@color/white"
+                            android:elevation="4dp"
+                            android:layout_margin="5dp">
+
+                        </me.recette.ButtonAnimation.LikeButtonView>
 
 
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/difficultyUpwardArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/upward_arrow"
+                            />
+                        <ImageView
+                            android:id="@+id/difficultyDownwardArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/downward_arrow_red"
+                            />
+
+                    </LinearLayout>
+
+
+
+                    <me.recette.ButtonAnimation.LikeButtonView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:id="@+id/recipeDifficultyButtonView"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:elevation="4dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp">
+
+                    </me.recette.ButtonAnimation.LikeButtonView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/upward_arrow"
+                            android:id="@+id/timeUpwardArrow"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/downward_arrow_red"
+                            android:id="@+id/timeDownwardArrow"/>
+
+                    </LinearLayout>
+                    <me.recette.ButtonAnimation.LikeButtonView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:id="@+id/recipeTimeButtonView"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:elevation="4dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp">
+
+                    </me.recette.ButtonAnimation.LikeButtonView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/upward_arrow"
+                            android:id="@+id/costUpwardArrow"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/downward_arrow_red"
+                            android:id="@+id/costDownwardArrow"/>
+
+                    </LinearLayout>
+
+                    <me.recette.ButtonAnimation.LikeButtonView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:id="@+id/recipeCostButtonView"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:elevation="4dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp">
+
+                    </me.recette.ButtonAnimation.LikeButtonView>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </FrameLayout>
+        </HorizontalScrollView>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            >
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/difficultyUpwardArrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/upward_arrow"
-                    />
-                <ImageView
-                    android:id="@+id/difficultyDownwardArrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/downward_arrow_red"
-                    />
-
-            </LinearLayout>
-
-
-
-            <me.recette.ButtonAnimation.LikeButtonView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/recipeDifficultyButtonView"
-                android:layout_gravity="center"
-                android:background="@color/white"
-                android:elevation="4dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp">
-
-            </me.recette.ButtonAnimation.LikeButtonView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            >
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/upward_arrow"
-                    android:id="@+id/timeUpwardArrow"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/downward_arrow_red"
-                    android:id="@+id/timeDownwardArrow"/>
-
-            </LinearLayout>
-            <me.recette.ButtonAnimation.LikeButtonView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/recipeTimeButtonView"
-                android:layout_gravity="center"
-                android:background="@color/white"
-                android:elevation="4dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp">
-
-            </me.recette.ButtonAnimation.LikeButtonView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            >
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/upward_arrow"
-                    android:id="@+id/costUpwardArrow"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/downward_arrow_red"
-                    android:id="@+id/costDownwardArrow"/>
-
-            </LinearLayout>
-
-            <me.recette.ButtonAnimation.LikeButtonView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/recipeCostButtonView"
-                android:layout_gravity="center"
-                android:background="@color/white"
-                android:elevation="4dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp">
-
-            </me.recette.ButtonAnimation.LikeButtonView>
-
-        </LinearLayout>
+            android:layout_height="2dp"
+            android:id="@+id/filterViewShadow"
+            android:background="@drawable/bottom_shadow"
+            android:visibility="invisible"/>
 
     </LinearLayout>
-    </HorizontalScrollView>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gridView"
-        android:numColumns="auto_fit"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:columnWidth="120dp"
-        android:paddingRight="5dp"
-        android:scrollbarStyle="outsideInset"
-        android:paddingLeft="5dp"
-        />
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/gridView"
+            android:numColumns="auto_fit"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:columnWidth="120dp"
+            android:paddingRight="5dp"
+            android:scrollbarStyle="outsideInset"
+            android:paddingLeft="5dp"
+            />
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/add_item"
-        fab:fab_colorNormal="@color/primary_color"
-        fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_colorRipple="@color/white"
-        fab:fab_shadow="true"/>
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/add_item"
+            fab:fab_colorNormal="@color/primary_color"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_colorRipple="@color/white"
+            fab:fab_shadow="true"/>
     </FrameLayout>
 
 </LinearLayout>

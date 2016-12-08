@@ -137,7 +137,17 @@ public class MainListActivity extends ActionBarActivity {
 
         activityContext = MainListActivity.this;
 
-        //TODO make elevation effect for items for lollipop end prelollipop version
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
+            findViewById(R.id.appBarShadow).setVisibility(View.VISIBLE);
+
+            /*final LayoutInflater factory = getLayoutInflater();
+            final View textEntryView = factory.inflate(R.layout.appbar_shadow_view, null);
+            View shadow = textEntryView.findViewById(R.id.shadow);
+            shadow.setVisibility(View.VISIBLE);*/
+        }
+        else {
+            findViewById(R.id.appBarShadow).setVisibility(View.INVISIBLE);
+        }
 
     }
 

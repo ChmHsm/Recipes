@@ -72,12 +72,17 @@ public class NewRecipeActivity extends ActionBarActivity {
 
         setSupportActionBar(toolbar);
 
-        /*if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
-            final LayoutInflater factory = getLayoutInflater();
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
+            findViewById(R.id.appBarShadow).setVisibility(View.VISIBLE);
+
+            /*final LayoutInflater factory = getLayoutInflater();
             final View textEntryView = factory.inflate(R.layout.appbar_shadow_view, null);
             View shadow = textEntryView.findViewById(R.id.shadow);
-            shadow.setVisibility(View.VISIBLE);
-        }*/
+            shadow.setVisibility(View.VISIBLE);*/
+        }
+        else {
+            findViewById(R.id.appBarShadow).setVisibility(View.INVISIBLE);
+        }
 
         setTitle(getIntent().getBooleanExtra("editRecipe", false) ? getIntent().getStringExtra("recipeName") : getResources().getString(R.string.new_recipe_name));
         //setTitle(R.string.new_recipe_name);
