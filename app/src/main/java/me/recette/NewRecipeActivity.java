@@ -72,7 +72,7 @@ public class NewRecipeActivity extends ActionBarActivity {
 
         setSupportActionBar(toolbar);
 
-        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP){
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP){
             findViewById(R.id.appBarShadow).setVisibility(View.VISIBLE);
 
             /*final LayoutInflater factory = getLayoutInflater();
